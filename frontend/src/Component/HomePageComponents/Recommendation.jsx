@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { styled } from "@mui/system";
-import HomeImg from "../assets/homeimg.png"; // Import your image
+import HomeImg from "../../assets/homeimg.png"; // Import your image
+import CareerOptionsDialogBox from "./CareerOptionsDialogBox";
+import { UserPreferencesContext } from "../../context/UserPreferencesContext";
+import RecommandedOptionDialogBox from "./RecommandedOptionDialogBox";
 
 // Styled components using Material-UI
 const GradientText = styled(Typography)({
@@ -13,6 +16,19 @@ const GradientText = styled(Typography)({
 });
 
 const Recommendation = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openRecommandations, setOpenRecommandations] = useState(false);
+  const { isCareerChanged, setCareerChanged } = useContext(
+    UserPreferencesContext
+  );
+  const handleOpenDialog = () => setOpenDialog(true);
+  const handleCloseDialog = () => setOpenDialog(false);
+  const handleOpenRecommandations = () => setOpenRecommandations(true);
+  const handleCloseRecommandations = () => {
+    setOpenRecommandations(false);
+    setCareerChanged(false);
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -47,10 +63,22 @@ const Recommendation = () => {
           color="primary"
           size="large"
           sx={{ fontWeight: "bold", borderRadius: "8px", px: 4, py: 1 }}
+          onClick={handleOpenDialog}
         >
           Get Recommendation
         </Button>
       </Box>
+      <CareerOptionsDialogBox
+        open={openDialog}
+        handleClose={handleCloseDialog}
+        handleOpenRecommandations={handleOpenRecommandations}
+      />
+      {isCareerChanged && ( // for any this component is not get reloaded for any reason so rendering like this make it get reloaded
+        <RecommandedOptionDialogBox
+          open={openRecommandations}
+          handleClose={handleCloseRecommandations}
+        />
+      )}
     </Container>
   );
 };

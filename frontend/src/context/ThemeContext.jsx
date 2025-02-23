@@ -1,6 +1,7 @@
-import React, { createContext, useState, useMemo } from "react";
+import React, { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Cookies from "js-cookie";
 
 // Create ThemeContext
 export const ThemeContext = createContext();
@@ -38,7 +39,15 @@ export const ThemeProviderComponent = ({ children }) => {
       }),
     [darkMode]
   );
+  // useEffect(() => {
+  //   const data = Cookies.get("darkMode");
 
+  //   setDarkMode(data);
+  // }, []);
+  useEffect(() => {
+    Cookies.set("darkMode", darkMode, { expires: 30 });
+    console.log(darkMode);
+  }, [darkMode]);
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
       <ThemeProvider theme={theme}>

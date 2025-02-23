@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import signuprouter from "./routes/auth.js"
+import signuprouter from "./routes/auth.js";
+import courseRouter from "./routes/courseRouter.js";
+import tutorialsRouter from "./routes/tutorialRoutor.js";
 const app = express();
 const PORT = 5000;
 
@@ -12,10 +14,11 @@ app.use(express.json());
 app.use(cors());
 
 // MongoDB connection
-mongoose.connect("mongodb://localhost:27017/skillcraft", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect("mongodb://localhost:27017/skillcraft", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDB connection error:", err));
 
@@ -46,17 +49,20 @@ app.post("/api/courses", async (req, res) => {
   }
 });
 
-app.get("/api/courses", async (req, res) => {
-  const courses = await Course.find()
-  console.log(courses)
-  res.status(200).json({courses})
-})
+// app.get("/api/courses", async (req, res) => {
+//   const courses = await Course.find();
+
+//   res.status(200).json({ courses });
+// });
+
+app.use("/api/courses", courseRouter);
+app.use("/api/tutorials", tutorialsRouter);
 
 app.get("/", (req, res) => {
-  res.json({msg:"Hello world"})
-})  
+  res.json({ msg: "Hello world" });
+});
 
-app.use("/api/auth",signuprouter)
+app.use("/api/auth", signuprouter);
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
