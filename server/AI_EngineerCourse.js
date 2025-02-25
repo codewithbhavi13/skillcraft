@@ -7,7 +7,7 @@ const tutorial1_chapter1_topics = [
         data: "AI engineering transforms product development by automating tasks, enhancing data-driven decision-making, and enabling the creation of smarter, more personalized products. It speeds up design cycles, optimizes processes, and allows for predictive maintenance, quality control, and efficient resource management. By integrating AI, companies can innovate faster, reduce costs, and improve user experiences, giving them a competitive edge in the market.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "AI-Powered Production: BMW’s Strategy for Faster Time-to-Market",
       },
       {
@@ -15,7 +15,7 @@ const tutorial1_chapter1_topics = [
         data: "BMW Group, a leader in the automotive industry, is strategically using AI in its vehicle assembly process. By increasing production efficiency, accuracy, and quality, they have significantly reduced the time to market for new models. Their AI innovations, such as Car2X and AIQX, have been key to these achievements, enabling smarter manufacturing and improved operational workflows.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "PepsiCo's AI-Powered Innovation: Designing the Perfect Cheetos",
       },
       {
@@ -23,7 +23,7 @@ const tutorial1_chapter1_topics = [
         data: "PepsiCo, a major player in the food and beverage industry, has turned to generative AI and deep reinforcement learning to explore design possibilities and optimize product features. They’ve developed innovative solutions that cater to customer preferences. By using AI, PepsiCo perfected the shape and flavor of Cheetos, allowing them to experiment with various combinations and precisely control product characteristics to enhance consumer satisfaction.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Data-Driven AI: The Engine Behind Netflix's Phenomenal Growth",
       },
       {
@@ -40,7 +40,7 @@ const tutorial1_chapter1_topics = [
         data: "AI Engineers are responsible for designing, developing, and deploying AI systems that solve realworld problems. Their roles include building machine learning models, implementing data processing pipelines, and integrating AI solutions into existing software or platforms. They work on tasks such as data collection, cleaning, and labeling, as well as model training, testing, and optimization to ensure high performance and accuracy. AI Engineers also focus on scaling models for production use, monitoring their performance, and troubleshooting issues. Additionally, they collaborate with data scientists, software developers, and other stakeholders to align AI projects with business goals, ensuring that solutions are reliable, efficient, and ethically sound.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "What Does an AI Engineer Do?",
       },
       {
@@ -61,7 +61,7 @@ const tutorial1_chapter1_topics = [
         ],
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Key Responsibilities of an AI Enginee",
       },
       {
@@ -96,7 +96,7 @@ const tutorial1_chapter1_topics = [
         data: "Artificial Intelligence (AI) engineering is a dynamic field that continues to evolve, offering professionals a range of opportunities across various industries. As AI technologies become increasingly integral to business operations, the demand for skilled AI engineers is on the rise.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Industry Demand for AI Engineers",
       },
       {
@@ -112,7 +112,7 @@ const tutorial1_chapter1_topics = [
         data: "However, the AI field is also experiencing a talent shortage, prompting companies to seek professionals with the necessary skills to develop and implement AI solutions. This shortage has led to competitive salaries and increased investment in training programs to upskill existing employees.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Career Path of an AI Engineer",
       },
       {
@@ -161,11 +161,11 @@ const tutorial1_chapter2_topics = [
         data: "Artificial Intelligence (AI) and Machine Learning (ML) are closely related fields within computer science, yet they encompass distinct roles and responsibilities. Understanding the differences and overlaps between AI Engineers and ML Engineers is crucial for organizations aiming to harness the full potential of intelligent systems.",
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Key Differences Between AI Engineers and ML Engineers",
       },
       {
-        type: "h4",
+        type: "h6",
         data: "1. Scope of Work",
       },
       {
@@ -182,11 +182,11 @@ const tutorial1_chapter2_topics = [
         ],
       },
       {
-        type: "h4",
+        type: "h6",
         data: "2. Responsibilities",
       },
       {
-        type: "h4",
+        type: "h6",
         data: "AI Engineers",
       },
       {
@@ -198,7 +198,7 @@ const tutorial1_chapter2_topics = [
         ],
       },
       {
-        type: "h4",
+        type: "h6",
         data: "ML Engineers:",
       },
       {
@@ -210,11 +210,11 @@ const tutorial1_chapter2_topics = [
         ],
       },
       {
-        type: "h4",
+        type: "h6",
         data: "3. Skill Sets",
       },
       {
-        type: "h4",
+        type: "h6",
         data: "AI Engineers",
       },
       {
@@ -227,7 +227,7 @@ const tutorial1_chapter2_topics = [
       },
 
       {
-        type: "h4",
+        type: "h6",
         data: "ML Engineers",
       },
       {
@@ -239,7 +239,7 @@ const tutorial1_chapter2_topics = [
         ],
       },
       {
-        type: "h3",
+        type: "h5",
         data: "Overlapping Skills",
       },
       {

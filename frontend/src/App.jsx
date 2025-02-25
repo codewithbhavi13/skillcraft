@@ -12,6 +12,7 @@ import AboutUs from "./Pages/AboutUs";
 import CoursePage from "./Pages/CoursePage";
 import Tutorial from "./Pages/Tutorial";
 import TopicPage from "./Pages/TopicPage";
+import ChapterPage from "./Pages/ChapterPage";
 
 function App() {
   return (
@@ -31,7 +32,10 @@ function App() {
             <Route index element={<CoursePage />} />
             <Route path=":tutorial">
               <Route index element={<Tutorial />} />
-              <Route path=":chapter/:topic" element={<TopicPage />} />
+              <Route path=":chapter">
+                <Route index element={<ChapterPage />} />
+                <Route path=":topic" element={<TopicPage />} />
+              </Route>
             </Route>
           </Route>
           <Route path="/tutorial/:tutorial">

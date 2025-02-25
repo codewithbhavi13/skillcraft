@@ -11,12 +11,13 @@ import {
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { CourseContext } from "../context/CourseContext";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ExpandLess, ExpandMore, NineKRounded } from "@mui/icons-material";
 
 export default function Tutorial() {
   const { tutorials } = useContext(CourseContext);
   const parms = useParams();
+  const navigate = useNavigate();
   const [tutorial, setTutorial] = useState({});
 
   const [openChapters, setOpenChapters] = useState({});
@@ -87,7 +88,13 @@ export default function Tutorial() {
                   </IconButton>
                 }
               >
-                <ListItemButton role={undefined} onClick={() => {}} dense>
+                <ListItemButton
+                  role={undefined}
+                  onClick={() => {
+                    navigate("chapter-" + (index + 1));
+                  }}
+                  dense
+                >
                   <ListItemText
                     primary={"Chapter " + (index + 1) + ": " + chapter.name}
                   />
