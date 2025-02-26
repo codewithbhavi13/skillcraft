@@ -55,7 +55,8 @@ export default function TopicPage() {
   return (
     <Stack
       sx={{
-        p: 2,
+        px: 10,
+        py: 2,
         flexGrow: 1,
         minHeight: window.innerHeight - 66,
         justifyContent: "space-between",

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { ThemeProviderComponent } from "./context/ThemeContext";
 import Navbar from "./Component/NavBar";
 import HomePage from "./Pages/HomePage";
@@ -17,33 +17,34 @@ import ChapterPage from "./Pages/ChapterPage";
 function App() {
   return (
     <ThemeProviderComponent>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/tutorial" element={<TutorialPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/admin/*" element={<AdminDashboard />} />
-          <Route path="/course/:course">
-            <Route index element={<CoursePage />} />
-            <Route path=":tutorial">
-              <Route index element={<Tutorial />} />
-              <Route path=":chapter">
-                <Route index element={<ChapterPage />} />
-                <Route path=":topic" element={<TopicPage />} />
-              </Route>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/tutorial" element={<TutorialPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/aboutus" element={<AboutUs />} />
+        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/course/:course">
+          <Route index element={<CoursePage />} />
+          <Route path=":tutorial">
+            <Route index element={<Tutorial />} />
+            <Route path=":chapter">
+              <Route index element={<ChapterPage />} />
+              <Route path=":topic" element={<TopicPage />} />
             </Route>
           </Route>
-          <Route path="/tutorial/:tutorial">
-            <Route index element={<Tutorial />} />
-            <Route path=":chapter/:topic" element={<TopicPage />} />
+        </Route>
+        <Route path="/tutorial/:tutorial">
+          <Route index element={<Tutorial />} />
+          <Route path=":chapter">
+            <Route index element={<ChapterPage />} />
+            <Route path=":topic" element={<TopicPage />} />
           </Route>
-        </Routes>
-      </Router>
+        </Route>
+      </Routes>
     </ThemeProviderComponent>
   );
 }

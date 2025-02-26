@@ -1,11 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import signuprouter from "./routes/auth.js";
 import courseRouter from "./routes/courseRouter.js";
 import tutorialsRouter from "./routes/tutorialRoutor.js";
+import dotenv from "dotenv";
+dotenv.config();
+import authrouter from "./routes/auth.js";
 const app = express();
 const PORT = 5000;
 
@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
   res.json({ msg: "Hello world" });
 });
 
-app.use("/api/auth", signuprouter);
+app.use("/api/auth", authrouter);
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
