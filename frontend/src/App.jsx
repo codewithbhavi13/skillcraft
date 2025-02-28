@@ -9,11 +9,13 @@ import Login from "./Pages/Login";
 import SignupPage from "./Pages/SignupPage";
 import AdminDashboard from "./Pages/AdminDashboard";
 import AboutUs from "./Pages/AboutUs";
-
+import BlogDetail from "./Pages/BlogDetail";
+import { BlogProvider } from "./context/BlogContex";
 
 function App() {
   return (
     <ThemeProviderComponent>
+      <BlogProvider>
       <Router>
       <Navbar/>
             <Routes>
@@ -23,10 +25,13 @@ function App() {
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/tutorial" element={<TutorialPage />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/aboutus" element={<AboutUs/>}/>
               <Route path="/admin/*" element={<AdminDashboard />} />
+             
             </Routes>
       </Router>
+      </BlogProvider>
     </ThemeProviderComponent>
   );
 }

@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js"
-    
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
     "bcryptjs": "^3.0.0",
     "cloudinary": "^1.41.3",
     "cors": "^2.8.5",

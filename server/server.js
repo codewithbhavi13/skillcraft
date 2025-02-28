@@ -1,23 +1,31 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import signuprouter from "./routes/auth.js"
-const app = express();
-const PORT = 5000;
+import dotenv from "dotenv";
+import signuprouter from "./routes/auth.js";
+import blogRouter from "./routes/blogRouter.js";
+//import blogRoutes from "./routes/blogRouter.js";
 
+dotenv.config(); // Load environment variables
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+app.use(express.urlencoded({ extended: true }));
 // Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-// MongoDB connection
-mongoose.connect("mongodb://localhost:27017/skillcraft", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("MongoDB connection error:", err));
+// MongoDB Connection
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ MongoDB Connected"))
+  .catch((err) => {
+    console.error("❌ MongoDB Connection Error:", err);
+    process.exit(1); // Exit if connection fails
+  });
 
 // Course Schema
 const courseSchema = new mongoose.Schema({
@@ -29,35 +37,56 @@ const courseSchema = new mongoose.Schema({
 
 const Course = mongoose.model("Course", courseSchema);
 
+app.post("/", async (req, res) => {
+  const { title, content } = req.body;
+  if (!title || !content )
+    return res.status(400).json({ message: "All fields are required" });
+
+  const newBlog = new Blog({ title, content });
+
+  try {
+    await newBlog.save();
+    res.status(201).json(newBlog);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+
+
 // Course POST Route
 app.post("/api/courses", async (req, res) => {
   const { title, image, description, category } = req.body;
-
   try {
-    // Create a new course
     const newCourse = new Course({ title, image, description, category });
     await newCourse.save();
-
-    // Respond with the saved course data
     res.status(201).json(newCourse);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({ message: "Error saving course" });
   }
 });
 
+// Course GET Route
 app.get("/api/courses", async (req, res) => {
-  const courses = await Course.find()
-  console.log(courses)
-  res.status(200).json({courses})
-})
+  try {
+    const courses = await Course.find();
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching courses" });
+  }
+});
 
-app.get("/", (req, res) => {
-  res.json({msg:"Hello world"})
-})  
+// Authentication Route
+app.use("/api/auth", signuprouter);
+app.use("/api/blog", blogRouter)
 
-app.use("/api/auth",signuprouter)
-// Start the server
+// Blog Routes
+
+
+// Start the Server
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
