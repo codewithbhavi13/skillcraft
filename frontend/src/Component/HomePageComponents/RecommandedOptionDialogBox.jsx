@@ -7,17 +7,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Box, Grid2, Typography } from "@mui/material";
 import { forwardRef, useContext, useEffect, useState } from "react";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
 import { CourseContext } from "../../context/CourseContext";
 import CourseCard from "../Cards/CourseCard";
 import TutorialCard from "../Cards/TutorialCard";
+import { UserContext } from "../../context/UserContext";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function RecommandedOptionDialogBox(props) {
   const { open, handleClose } = props;
-  const { selectedCareer } = useContext(UserPreferencesContext);
+  const {
+    userDetails: { selectedCareer },
+  } = useContext(UserContext);
   const { courses, tutorials } = useContext(CourseContext);
   const [recommandedCourses, setRecommandedCourses] = useState([]);
   const [recommandedTutorials, setRecommandedTutorials] = useState([]);
@@ -77,7 +79,7 @@ export default function RecommandedOptionDialogBox(props) {
           }}
         >
           {recommandedTutorials.map((item, index) => (
-            <Grid2 size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
               <TutorialCard key={index} tutorial={item} />
             </Grid2>
           ))}

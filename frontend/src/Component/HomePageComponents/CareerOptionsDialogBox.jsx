@@ -7,18 +7,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import { Box } from "@mui/material";
 import { forwardRef, useContext, useRef } from "react";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
+import { UserContext } from "../../context/UserContext";
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function CareerOptionsDialogBox(props) {
   const { open, handleClose, handleOpenRecommandations } = props;
-  const { setCareerChanged, setSelectedCareer } = useContext(
-    UserPreferencesContext
-  );
-  const handleCareerOptionChange = (option) => {
-    setSelectedCareer(option);
+  const { setCareerChanged, setSingleField } = useContext(UserContext);
+  const handleCareerOptionChange = async (option) => {
+    setSingleField({ name: "selectedCareer", value: option });
     handleClose();
     setCareerChanged(true);
     setTimeout(() => handleOpenRecommandations(), 100);

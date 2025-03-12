@@ -4,7 +4,8 @@ const HeroSection = () => {
   return (
     <Box
       sx={{
-        backgroundImage: "url('https://source.unsplash.com/1600x900/?education,coding')",
+        backgroundImage:
+          "url('https://source.unsplash.com/1600x900/?education,coding')",
         backgroundSize: "cover",
         backgroundPosition: "center",
         height: "300px",
@@ -12,7 +13,7 @@ const HeroSection = () => {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        color: "white",
+
         textAlign: "center",
         p: 3,
       }}
@@ -23,8 +24,6 @@ const HeroSection = () => {
       <Typography variant="h6" sx={{ mt: 1, mb: 2 }}>
         Learn, Grow & Upgrade Your Skills
       </Typography>
-      
-      
     </Box>
   );
 };

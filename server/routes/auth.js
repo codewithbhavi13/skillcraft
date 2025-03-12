@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import dotenv from "dotenv";
+import { authUser } from "../middlewares/authUser.js";
 dotenv.config();
 
 const authrouter = express.Router();
@@ -77,10 +78,24 @@ authrouter.post("/signin", async (req, res) => {
     );
 
     user_json.authtoken = authtoken;
-    res.json({ msg: "Login Successfull", user: user_json });
+    res.json({ msg: "Login Successful", user: user_json });
   } catch (err) {
     console.error(err.message);
     res.status(500).json({ msg: "Server Error" });
+  }
+});
+
+authrouter.get("/", authUser, async (req, res) => {
+  const { id } = req.user;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      res.status(404).json({ msg: "User not found" });
+    }
+
+    res.status(200).json({ msg: "Login Successful", user });
+  } catch (error) {
+    res.status(500).json({ error });
   }
 });
 

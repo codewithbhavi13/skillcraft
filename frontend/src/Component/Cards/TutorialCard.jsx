@@ -1,15 +1,21 @@
-import * as React from "react";
+import { useContext } from "react";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
 import { useNavigate, useParams } from "react-router-dom";
+import { UserContext } from "../../context/UserContext";
+import { MessageContext } from "../../context/MessageContext";
 
 export default function TutorialCard({ tutorial, width }) {
   const parms = useParams();
   const navigate = useNavigate();
+  const { isLogin } = useContext(UserContext);
+  const { setErrorMsg } = useContext(MessageContext);
   const handleOnTutorialClick = () => {
+    if (!isLogin) return setErrorMsg("Please Login First");
     const addToPath = tutorial.title.toLowerCase().replaceAll(" ", "-");
     if (parms.course) {
       navigate(addToPath);

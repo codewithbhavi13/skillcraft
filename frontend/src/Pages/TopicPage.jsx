@@ -1,18 +1,25 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { CourseContext } from "../context/CourseContext";
+import React, { useContext } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { UserContext } from "../context/UserContext";
+import { OpenedTutorialContext } from "../context/OpenedTutorialContext";
 
 export default function TopicPage() {
-  const parms = useParams();
   const location = useLocation();
-  const { tutorials } = useContext(CourseContext);
+
+  const { startChapter, completeTopic } = useContext(UserContext);
   const navigate = useNavigate();
-  const [topic, setTopic] = useState({});
-  const [chapter, setChapter] = useState({});
-  const [tutorial, setTutorial] = useState({});
-  const [topicIndex, setTopicIndex] = useState(0);
-  const [chapterIndex, setChapterIndex] = useState(0);
+
+  const {
+    chapter,
+    tutorial,
+    topic,
+    topicIndex,
+    chapterIndex,
+    enrolledTutorial,
+    isTopicCompleted,
+  } = useContext(OpenedTutorialContext);
+
   const jumpToChapterPage = () => {
     navigate(location.pathname.replace(/\/topic-\d+$/, ""));
   };
@@ -21,41 +28,40 @@ export default function TopicPage() {
       location.pathname.replace(/\/topic-\d+$/, "").slice(0, -1) +
         (chapterIndex + 2)
     );
+    const nextChapter = tutorial?.chapters[chapterIndex + 1];
+    const isNextChapterStarted = enrolledTutorial?.startedChapters?.find(
+      (item) => item.name === nextChapter.name
+    );
+    setCompleteTopic();
+    if (!isNextChapterStarted) {
+      startChapter({
+        tutorialName: tutorial.title,
+        chapterName: nextChapter.name,
+      });
+    }
   };
-  console.log("last chapter: ");
-  console.log("Chpaters Length", tutorial?.chapters?.length);
-  console.log("Chapter index", chapterIndex);
+
   const jumpToPreviousTopic = () => {
     navigate(location.pathname.slice(0, -1) + topicIndex);
   };
   const jumpToNextTopic = () => {
     navigate(location.pathname.slice(0, -1) + (topicIndex + 2));
+    setCompleteTopic();
   };
-  useEffect(() => {
-    const tutorial = tutorials.find(
-      (item) => item.title.toLowerCase() === parms.tutorial.replaceAll("-", " ")
-    );
-    setTutorial(tutorial);
-
-    // const chapter = tutorial.find((item) => item.)
-    const chapterIndex = parseInt(parms.chapter.at(-1)) - 1;
-    const newTopicIndex = parseInt(parms.topic.at(-1)) - 1;
-
-    if (isNaN(chapterIndex) && isNaN(newTopicIndex)) {
-      console.error("error");
-      return;
+  const setCompleteTopic = () => {
+    if (isTopicCompleted(chapter.name, topic.name)) {
+      completeTopic({
+        tutorialName: tutorial.title,
+        chapterName: chapter.name,
+        topicName: topic.name,
+      });
     }
-    setChapterIndex(chapterIndex);
-    setTopicIndex(newTopicIndex);
-    const chapter = tutorial?.chapters[chapterIndex];
-    setChapter(chapter);
-    const topic = chapter?.topics[newTopicIndex];
-    setTopic(topic);
-  }, [tutorials, location.pathname]);
+  };
+
   return (
     <Stack
       sx={{
-        px: 10,
+        px: 5,
         py: 2,
         flexGrow: 1,
         minHeight: window.innerHeight - 66,
@@ -68,7 +74,7 @@ export default function TopicPage() {
           {topic?.name}
         </Typography>
         {topic?.content?.map((item, index) => (
-          <RendererComponent element={item} />
+          <RendererComponent key={index} element={item} />
         ))}
       </Box>
       <Stack direction="row" justifyContent="space-between" sx={{ mt: 2 }}>
@@ -102,7 +108,7 @@ function RendererComponent({ element }) {
   if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(element?.type)) {
     return (
       <Typography variant={element.type} gutterBottom>
-        {element.data}{" "}
+        {element.data}
       </Typography>
     );
   }

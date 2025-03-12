@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Collapse,
   IconButton,
   List,
@@ -9,35 +10,25 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { CourseContext } from "../context/CourseContext";
-import { useNavigate, useParams } from "react-router-dom";
-import { ExpandLess, ExpandMore, NineKRounded } from "@mui/icons-material";
+import React, { useContext, useEffect } from "react";
 
+import { Done, ExpandLess, ExpandMore, Lock } from "@mui/icons-material";
+import { OpenedTutorialContext } from "../context/OpenedTutorialContext";
+import { useNavigate } from "react-router-dom";
 export default function Tutorial() {
-  const { tutorials } = useContext(CourseContext);
-  const parms = useParams();
   const navigate = useNavigate();
-  const [tutorial, setTutorial] = useState({});
 
-  const [openChapters, setOpenChapters] = useState({});
+  const {
+    isChapterCompleted,
+    isChapterUnlocked,
 
-  // Function to toggle chapter open/close
-  const handleToggle = (index) => {
-    setOpenChapters((prev) => ({
-      ...prev,
-      [index]: !prev[index], // Toggle state for the specific chapter
-    }));
-  };
-  useEffect(() => {
-    setTutorial(
-      tutorials.find(
-        (item) =>
-          item.title.toLowerCase() === parms.tutorial.replaceAll("-", " ")
-      )
-    );
-  }, [tutorials]);
-  console.log(tutorial);
+    handleGetEnrolled,
+    handleToggle,
+  } = useContext(OpenedTutorialContext);
+  const { openChapters, enrollLoading, isEnrolled, tutorial } = useContext(
+    OpenedTutorialContext
+  );
+
   return (
     <Box>
       <Box
@@ -73,53 +64,74 @@ export default function Tutorial() {
         <Typography variant="body1" color="text.secondary">
           {tutorial?.description}
         </Typography>
+        <Button
+          variant="contained"
+          size="large"
+          endIcon={<></>}
+          loading={enrollLoading}
+          disabled={isEnrolled}
+          sx={{ display: "inline", width: "fit-content", mt: 2 }}
+          onClick={handleGetEnrolled}
+        >
+          Get Enroll
+        </Button>
       </Box>
       <Box sx={{ padding: 4 }}>
         <Typography variant="h4" gutterBottom>
           Chapters
         </Typography>
         <List>
-          {tutorial?.chapters?.map((chapter, index) => (
-            <React.Fragment key={index}>
-              <ListItem
-                secondaryAction={
-                  <IconButton onClick={() => handleToggle(index)}>
-                    {openChapters[index] ? <ExpandLess /> : <ExpandMore />}
-                  </IconButton>
-                }
-              >
-                <ListItemButton
-                  role={undefined}
-                  onClick={() => {
-                    navigate("chapter-" + (index + 1));
-                  }}
-                  dense
+          {tutorial?.chapters?.map((chapter, index) => {
+            const isUnlocked = isChapterUnlocked(chapter.name);
+            return (
+              <React.Fragment key={index}>
+                <ListItem
+                  secondaryAction={
+                    <IconButton onClick={() => handleToggle(index)}>
+                      {openChapters[index] ? <ExpandLess /> : <ExpandMore />}
+                    </IconButton>
+                  }
+                  sx={{ pr: 2 }}
+                  disablePadding
                 >
-                  <ListItemText
-                    primary={"Chapter " + (index + 1) + ": " + chapter.name}
-                  />
+                  <ListItemButton
+                    role={undefined}
+                    onClick={() => {
+                      navigate("chapter-" + (index + 1));
+                    }}
+                    disabled={!isUnlocked}
+                    dense
+                  >
+                    <ListItemText
+                      primary={"Chapter " + (index + 1) + ": " + chapter.name}
+                    />
 
-                  {/* <ListItemIcon>
-                <Checkbox
-                  edge="start"
-                  checked={checked.includes(value)}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-              </ListItemIcon> */}
-                </ListItemButton>
-              </ListItem>
+                    <ListItemIcon>
+                      {!isUnlocked && (
+                        <Lock
+                          edge="start"
+                          checked={true}
+                          tabIndex={-1}
+                          sx={{ ml: "auto" }}
+                        />
+                      )}
+                      {isChapterCompleted(chapter.name) && (
+                        <Done sx={{ ml: "auto" }} />
+                      )}
+                    </ListItemIcon>
+                  </ListItemButton>
+                </ListItem>
 
-              <Collapse in={openChapters[index]} timeout="auto" unmountOnExit>
-                <List component="div" sx={{ pl: 6 }} disablePadding>
-                  {chapter?.topics?.map((topic, index) => (
-                    <ListItemText primary={topic.name} key={index} />
-                  ))}
-                </List>
-              </Collapse>
-            </React.Fragment>
-          ))}
+                <Collapse in={openChapters[index]} timeout="auto" unmountOnExit>
+                  <List component="div" sx={{ pl: 6 }} disablePadding>
+                    {chapter?.topics?.map((topic, index) => (
+                      <ListItemText primary={topic.name} key={index} />
+                    ))}
+                  </List>
+                </Collapse>
+              </React.Fragment>
+            );
+          })}
         </List>
       </Box>
     </Box>
