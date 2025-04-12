@@ -1,6 +1,14 @@
 import React, { useState, useContext } from "react";
 import { BlogContext } from "../context/BlogContex";
-import { TextField, Button, Typography, Container, Card, CardContent, CardActions } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Card,
+  CardContent,
+  CardActions,
+} from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -8,15 +16,15 @@ const ManageBlog = () => {
   const { addBlog } = useContext(BlogContext);
   const [title, setTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const[image,setImage]=useState(""); // Image Preview URL
+  const [image, setImage] = useState(""); // Image Preview URL
   const [content, setContent] = useState("");
 
   // Handle Image Upload from Computer
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    
+
     if (file) {
-      setImage(file)
+      setImage(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageUrl(reader.result); // Set image as base64 URL
@@ -56,7 +64,12 @@ const ManageBlog = () => {
           />
 
           {/* Image Upload */}
-          <input type="file" accept="image/*" onChange={handleImageUpload} style={{ marginBottom: "10px" }} />
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ marginBottom: "10px" }}
+          />
 
           {/* Image Preview */}
           {image && (
@@ -74,17 +87,6 @@ const ManageBlog = () => {
           )}
 
           {/* Rich Text Editor for Blog Content */}
-          <ReactQuill
-            value={content}
-            onChange={setContent}
-            placeholder="Write your blog post here..."
-            style={{ height: "200px", marginBottom: "10px", background: "white" }}
-          />
-
-          {/* Word Counter */}
-          <Typography variant="body2" sx={{ textAlign: "right", color: "gray", mt: 1 }}>
-            {content.trim().split(/\s+/).length} words (Max: 1000)
-          </Typography>
         </CardContent>
 
         <CardActions>

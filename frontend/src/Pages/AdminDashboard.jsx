@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Box, CssBaseline } from "@mui/material";
 import SideBar from "../Component/SideBar";
-import Dashboard from "../Component/Dashboard";
+import Dashboard from "../Component/UserDashboard/UserDetails";
 import ManageCourse from "../Component/ManageCourse";
 import ManageBlog from "../Component/ManageBlog";
 import ManageRecommendation from "../Component/ManageRecommendation";
@@ -14,7 +14,13 @@ const AdminDashboard = () => {
   const { darkMode } = useContext(ThemeContext);
 
   return (
-    <Box sx={{ display: "flex", height: "100vh", backgroundColor: darkMode ? "#1e1e2f" : "#f5f5f5" }}>
+    <Box
+      sx={{
+        display: "flex",
+        height: "100vh",
+        backgroundColor: darkMode ? "#1e1e2f" : "#f5f5f5",
+      }}
+    >
       <CssBaseline />
 
       {/* Sidebar */}
@@ -26,8 +32,8 @@ const AdminDashboard = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: `calc(100% - 250px)`, 
-          marginLeft: "250px", 
+          width: `calc(100% - 250px)`,
+          marginLeft: "250px",
           marginTop: "64px", // Adjust for Navbar height
         }}
       >

@@ -1,7 +1,7 @@
-import React from 'react';
-import { Container } from '@mui/material';
-import HeroSection from '../Component/HeroSection';
-import TutorialTabs from '../Component/TutorialTab';
+import React from "react";
+import { Container } from "@mui/material";
+import HeroSection from "../Component/HeroSection";
+import TutorialTabs from "../Component/TutorialPageComponents/TutorialTab";
 
 const TutorialPage = () => {
   return (

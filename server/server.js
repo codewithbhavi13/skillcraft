@@ -1,12 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import courseRouter from "./routes/courseRouter.js";
+import tutorialsRouter from "./routes/tutorialRoutor.js";
 import dotenv from "dotenv";
-import signuprouter from "./routes/auth.js";
+dotenv.config();
+import authrouter from "./routes/auth.js";
 import blogRouter from "./routes/blogRouter.js";
 //import blogRoutes from "./routes/blogRouter.js";
-
-dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -39,7 +40,7 @@ const Course = mongoose.model("Course", courseSchema);
 
 app.post("/", async (req, res) => {
   const { title, content } = req.body;
-  if (!title || !content )
+  if (!title || !content)
     return res.status(400).json({ message: "All fields are required" });
 
   const newBlog = new Blog({ title, content });
@@ -51,9 +52,6 @@ app.post("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-
-
-
 
 // Course POST Route
 app.post("/api/courses", async (req, res) => {
@@ -68,25 +66,22 @@ app.post("/api/courses", async (req, res) => {
   }
 });
 
-// Course GET Route
-app.get("/api/courses", async (req, res) => {
-  try {
-    const courses = await Course.find();
-    res.status(200).json(courses);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error fetching courses" });
-  }
+// app.get("/api/courses", async (req, res) => {
+//   const courses = await Course.find();
+
+//   res.status(200).json({ courses });
+// });
+
+app.use("/api/courses", courseRouter);
+app.use("/api/tutorials", tutorialsRouter);
+app.use("/api/blog", blogRouter);
+
+app.get("/", (req, res) => {
+  res.json({ msg: "Hello world" });
 });
 
-// Authentication Route
-app.use("/api/auth", signuprouter);
-app.use("/api/blog", blogRouter)
-
-// Blog Routes
-
-
-// Start the Server
+app.use("/api/auth", authrouter);
+// Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });

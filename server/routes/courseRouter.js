@@ -1,11 +1,12 @@
 import express from "express";
-import Course from "../models/course.js"; // Ensure '.js' extension is used
-import CourseGrid from "../../frontend/src/Component/CourseGrid.jsx";
+// import Course from "../models/course.js"; // Ensure '.js' extension is used
+// import CourseGrid from "../../frontend/src/Component/CourseGrid.jsx";
+import { aiEngineerCourse } from "../AI_EngineerCourse.js";
 
-const router = express.Router();
+const courseRouter = express.Router();
 
 // Route to add a new course
-router.post("/add", async (req, res) => {
+courseRouter.post("/add", async (req, res) => {
   try {
     const { title, image, description, category } = req.body;
 
@@ -16,7 +17,9 @@ router.post("/add", async (req, res) => {
     await newCourse.save();
 
     // Send success response
-    res.status(201).json({ message: "Course added successfully", course: newCourse });
+    res
+      .status(201)
+      .json({ message: "Course added successfully", course: newCourse });
   } catch (err) {
     // Handle any errors during the save operation
     console.error(err);
@@ -24,6 +27,20 @@ router.post("/add", async (req, res) => {
   }
 });
 
+courseRouter.get("/", async (req, res) => {
+  const courses = [
+    aiEngineerCourse,
+    {
+      category: "Web Development",
+      description:
+        "Learn Front end fundamentatlss with HTML, CSS , JS and money more",
+      path: [],
+      thumbnail: "",
+      title: "Frontend Development",
+      tutorials: [],
+    },
+  ];
+  res.status(200).json({ courses });
+});
 
-
-export default router;
+export default courseRouter;
