@@ -16,6 +16,7 @@ import ChapterPage from "./Pages/ChapterPage";
 import { UserContext } from "./context/UserContext";
 import SideNavigation from "./Component/SideNavigation";
 import { OpenedTutorialProvider } from "./context/OpenedTutorialContext";
+import QuizPage from "./Pages/QuizPage";
 
 function App() {
   return (
@@ -77,6 +78,15 @@ function App() {
               </OpenedTutorialProvider>
             }
           />
+          <Route
+            path="quiz"
+            element={
+              <OpenedTutorialProvider>
+                <QuizPage />
+              </OpenedTutorialProvider>
+            }
+          />
+
           <Route
             path=":chapter"
             element={

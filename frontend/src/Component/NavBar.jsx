@@ -60,7 +60,7 @@ const NavBar = () => {
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       color={darkMode ? "primary" : "default"}
       sx={{ padding: "1px 10px", boxShadow: "none" }}
     >
@@ -185,7 +185,6 @@ const NavBar = () => {
               component={Link}
               to="/login"
               sx={{
-                backgroundColor: "lightblue",
                 fontSize: "1rem",
                 padding: "8px 16px",
                 borderRadius: "8px",

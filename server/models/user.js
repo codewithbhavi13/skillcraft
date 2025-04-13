@@ -41,6 +41,9 @@ const enrolledTutorialSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    result: {
+      type: Number,
+    },
   },
   { _id: 0 }
 );

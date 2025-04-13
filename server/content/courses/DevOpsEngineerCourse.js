@@ -1987,6 +1987,56 @@ export const DevOpsTutorials = [
       "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps1.png?alt=media&token=7b43b497-2cf8-4581-aac7-fab452823a46",
     category: "DevOps",
     chapters: tutorial1_chapters,
+    quiz: [
+      {
+        question:
+          "What is the primary difference between Linux and Windows operating systems?",
+        options: [
+          "Linux is open-source, while Windows is proprietary.",
+          "Windows is more secure than Linux.",
+          "Linux has a graphical user interface (GUI), while Windows does not.",
+          "There is no difference.",
+        ],
+        answer: "Linux is open-source, while Windows is proprietary.",
+      },
+      {
+        question: "What does the TCP/IP protocol enable in networking?",
+        options: [
+          "Secure data transmission.",
+          "File sharing.",
+          "Communication between devices on a network.",
+          "All of the above.",
+        ],
+        answer: "Communication between devices on a network.",
+      },
+      {
+        question:
+          "Which of the following is NOT a task of a DevOps engineer in shell scripting?",
+        options: [
+          "Automating system tasks.",
+          "Creating web applications.",
+          "Managing system resources.",
+          "Writing deployment scripts.",
+        ],
+        answer: "Creating web applications.",
+      },
+      {
+        question:
+          "Which of the following is commonly used for version control in DevOps?",
+        options: ["Docker", "Git", "Kubernetes", "Terraform"],
+        answer: "Git",
+      },
+      {
+        question: "What is the main advantage of using a VPN in networking?",
+        options: [
+          "Faster internet speeds.",
+          "Improved security for data transmission.",
+          "Unlimited data usage.",
+          "More storage capacity.",
+        ],
+        answer: "Improved security for data transmission.",
+      },
+    ],
   },
   {
     title: "Version Control Systems: Master Git and CI-CD",
@@ -1996,6 +2046,55 @@ export const DevOpsTutorials = [
       "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps2.png?alt=media&token=8a4143cf-0e61-4fad-94c5-907c2092cdd3",
     category: "DevOps",
     chapters: tutorial2_chapters,
+    quiz: [
+      {
+        question: "Which command in Git is used to create a new branch?",
+        options: [
+          "git merge",
+          "git commit",
+          "git branch <branch-name>",
+          "git push",
+        ],
+        answer: "git branch <branch-name>",
+      },
+      {
+        question: "What is the purpose of a Pull Request in GitHub?",
+        options: [
+          "To delete a branch.",
+          "To merge changes from one branch into another.",
+          "To revert changes made in a repository.",
+          "To fetch remote changes to a local branch.",
+        ],
+        answer: "To merge changes from one branch into another.",
+      },
+      {
+        question:
+          "Which of the following is the default branch in a newly created Git repository?",
+        options: ["master", "develop", "main", "staging"],
+        answer: "main",
+      },
+      {
+        question: "What is the primary purpose of CI/CD?",
+        options: [
+          "To monitor server health.",
+          "To automate the process of building, testing, and deploying software.",
+          "To control access to cloud resources.",
+          "To backup server data.",
+        ],
+        answer:
+          "To automate the process of building, testing, and deploying software.",
+      },
+      {
+        question: 'What does "rebasing" do in Git?',
+        options: [
+          "Merges changes from one branch to another.",
+          "Deletes a branch.",
+          "Rewrites the commit history to make it linear.",
+          "Pushes commits to the remote repository.",
+        ],
+        answer: "Rewrites the commit history to make it linear.",
+      },
+    ],
   },
   {
     title: "Continuous Integration & Continuous Deployment (CI-CD)",
@@ -2005,6 +2104,57 @@ export const DevOpsTutorials = [
       "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps3.png?alt=media&token=eee52ce7-cbe5-4afd-89b3-548caac8fdfd",
     category: "DevOps",
     chapters: tutorial3_chapters,
+    quiz: [
+      {
+        question: "Which tool is commonly used for CI/CD automation?",
+        options: ["Jenkins", "Docker", "Kubernetes", "Terraform"],
+        answer: "Jenkins",
+      },
+      {
+        question: "What is the primary function of a build pipeline in CI/CD?",
+        options: [
+          "Automates code deployment.",
+          "Automates code compilation, testing, and deployment.",
+          "Manages user authentication.",
+          "Manages server resources.",
+        ],
+        answer: "Automates code compilation, testing, and deployment.",
+      },
+      {
+        question:
+          "What is the difference between Blue/Green and Canary deployments?",
+        options: [
+          "Blue/Green deployments release to all users at once, while Canary releases only to a subset of users.",
+          "Blue/Green deployments release only to a subset of users, while Canary releases to all users.",
+          "Both Blue/Green and Canary deployments release to all users.",
+          "Both Blue/Green and Canary deployments release to no users.",
+        ],
+        answer:
+          "Blue/Green deployments release to all users at once, while Canary releases only to a subset of users.",
+      },
+      {
+        question:
+          "Which of the following best describes the concept of Continuous Deployment?",
+        options: [
+          "Automating the building of the code.",
+          "Automatically deploying code changes to production after passing tests.",
+          "Manually deploying code to production.",
+          "Maintaining a code repository.",
+        ],
+        answer:
+          "Automatically deploying code changes to production after passing tests.",
+      },
+      {
+        question: "What does a CI/CD pipeline typically include?",
+        options: [
+          "Code compilation, testing, and deployment.",
+          "Code compilation and user authentication.",
+          "Server configuration and code push.",
+          "Only code push and deployment.",
+        ],
+        answer: "Code compilation, testing, and deployment.",
+      },
+    ],
   },
   {
     title: "Infrastructure as Code (IaC): Modern DevOps Approach",
@@ -2014,6 +2164,54 @@ export const DevOpsTutorials = [
       "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps4.png?alt=media&token=5f597e6d-b09c-4528-8d40-fa73600b1806",
     category: "DevOps",
     chapters: tutorial4_chapters,
+    quiz: [
+      {
+        question: "What does Infrastructure as Code (IaC) allow you to do?",
+        options: [
+          "Manage infrastructure manually.",
+          "Automate the provisioning of infrastructure.",
+          "Monitor system performance.",
+          "Write code without using version control.",
+        ],
+        answer: "Automate the provisioning of infrastructure.",
+      },
+      {
+        question: "Which tool is used for configuration management in IaC?",
+        options: ["Docker", "Ansible", "Kubernetes", "Jenkins"],
+        answer: "Ansible",
+      },
+      {
+        question: "What is the purpose of Docker in IaC?",
+        options: [
+          "Automate infrastructure provisioning.",
+          "Package applications and dependencies into containers.",
+          "Manage user access to resources.",
+          "Monitor system performance.",
+        ],
+        answer: "Package applications and dependencies into containers.",
+      },
+      {
+        question: "What is Kubernetes primarily used for in DevOps?",
+        options: [
+          "Managing cloud storage.",
+          "Automating container orchestration and management.",
+          "Provisioning servers.",
+          "Configuring networks.",
+        ],
+        answer: "Automating container orchestration and management.",
+      },
+      {
+        question:
+          "Which of the following is a key benefit of using Terraform for IaC?",
+        options: [
+          "It is cloud-agnostic, supporting multiple cloud providers.",
+          "It only supports AWS.",
+          "It is a container orchestration tool.",
+          "It does not support version control.",
+        ],
+        answer: "It is cloud-agnostic, supporting multiple cloud providers.",
+      },
+    ],
   },
   {
     title: "Cloud Computing & Services",
@@ -2023,10 +2221,60 @@ export const DevOpsTutorials = [
       "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps5.png?alt=media&token=dac951ef-2c78-4c10-801a-bc5e698964f3",
     category: "DevOps",
     chapters: tutorial5_chapters,
+    quiz: [
+      {
+        question:
+          "Which cloud service provider offers services like EC2, S3, and Lambda?",
+        options: ["AWS", "Azure", "Google Cloud", "IBM Cloud"],
+        answer: "AWS",
+      },
+      {
+        question:
+          "What does the VPC (Virtual Private Cloud) service allow you to do?",
+        options: [
+          "Manage and monitor server performance.",
+          "Set up a private network within the cloud.",
+          "Deploy serverless applications.",
+          "Store large datasets.",
+        ],
+        answer: "Set up a private network within the cloud.",
+      },
+      {
+        question: "What is the primary purpose of serverless computing?",
+        options: [
+          "To avoid setting up infrastructure manually.",
+          "To host virtual machines in the cloud.",
+          "To provision cloud resources manually.",
+          "To monitor the status of virtual machines.",
+        ],
+        answer: "To avoid setting up infrastructure manually.",
+      },
+      {
+        question:
+          "Which of the following is a key advantage of using Google Cloud's Kubernetes Engine (GKE)?",
+        options: [
+          "Fully managed container orchestration with Kubernetes.",
+          "Unlimited cloud storage.",
+          "On-premise server management.",
+          "Manual scaling of server instances.",
+        ],
+        answer: "Fully managed container orchestration with Kubernetes.",
+      },
+      {
+        question: "What is the primary function of AWS Lambda?",
+        options: [
+          "Store large files.",
+          "Run code in response to events without provisioning servers.",
+          "Manage server clusters.",
+          "Run virtual machines.",
+        ],
+        answer: "Run code in response to events without provisioning servers.",
+      },
+    ],
   },
 ];
 export const DevOpsEngineerCourse = {
-  title: "DevOps Engineer ",
+  title: "DevOps Engineer",
   description: "",
   thumbnail:
     "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps0.png?alt=media&token=777b27d0-7949-4b94-943f-09ed1ecd39fd",

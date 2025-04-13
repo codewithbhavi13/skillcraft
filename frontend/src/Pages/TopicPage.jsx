@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { UserContext } from "../context/UserContext";
@@ -32,7 +32,7 @@ export default function TopicPage() {
     const isNextChapterStarted = enrolledTutorial?.startedChapters?.find(
       (item) => item.name === nextChapter.name
     );
-    setCompleteTopic();
+
     if (!isNextChapterStarted) {
       startChapter({
         tutorialName: tutorial.title,
@@ -40,23 +40,30 @@ export default function TopicPage() {
       });
     }
   };
-
   const jumpToPreviousTopic = () => {
     navigate(location.pathname.slice(0, -1) + topicIndex);
   };
   const jumpToNextTopic = () => {
     navigate(location.pathname.slice(0, -1) + (topicIndex + 2));
+  };
+  const startQuiz = () => {
+    const quizUrl =
+      location.pathname.replace(/\/chapter-\d+\/topic-\d+/, "") + "/quiz";
+    navigate(quizUrl);
+  };
+
+  useEffect(() => {
+    const setCompleteTopic = () => {
+      if (!isTopicCompleted(chapter.name, topic.name)) {
+        completeTopic({
+          tutorialName: tutorial.title,
+          chapterName: chapter.name,
+          topicName: topic.name,
+        });
+      }
+    };
     setCompleteTopic();
-  };
-  const setCompleteTopic = () => {
-    if (isTopicCompleted(chapter.name, topic.name)) {
-      completeTopic({
-        tutorialName: tutorial.title,
-        chapterName: chapter.name,
-        topicName: topic.name,
-      });
-    }
-  };
+  });
 
   return (
     <Stack
@@ -86,18 +93,22 @@ export default function TopicPage() {
         </Button>
 
         <Button
-          disabled={
-            tutorial?.chapters?.length - 1 === chapterIndex &&
-            chapter?.topics?.length - 1 === topicIndex
-          }
           variant="outlined"
           onClick={
+            tutorial?.chapters?.length - 1 === chapterIndex &&
             chapter?.topics?.length - 1 === topicIndex
+              ? startQuiz
+              : chapter?.topics?.length - 1 === topicIndex
               ? jumpToNextChapter
               : jumpToNextTopic
           }
         >
-          {chapter?.topics?.length - 1 === topicIndex ? "Next Chapter" : "Next"}
+          {tutorial?.chapters?.length - 1 === chapterIndex &&
+          chapter?.topics?.length - 1 === topicIndex
+            ? "Start Quiz"
+            : chapter?.topics?.length - 1 === topicIndex
+            ? "Next Chapter"
+            : "Next"}
         </Button>
       </Stack>
     </Stack>

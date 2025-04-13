@@ -122,9 +122,6 @@ export const UserProvider = ({ children }) => {
   };
 
   const startChapter = async ({ tutorialName, chapterName }) => {
-    let newEnrolledTutorials = userDetails.enrolledTutorials.filter(
-      (item) => item.title !== tutorialName
-    );
     try {
       const response = await axios.patch(
         SERVER_URL + "/api/progress/start-chapter",
@@ -136,22 +133,31 @@ export const UserProvider = ({ children }) => {
           headers: { authtoken: userDetails.authtoken },
         }
       );
-
-      newEnrolledTutorials.push(response.data.updatedTutorial);
-      setSingleField({
-        name: "enrolledTutorials",
-        value: newEnrolledTutorials,
-      });
+      updateTutorialInContext(response.data.updatedTutorial, tutorialName);
     } catch (error) {
       console.log(error);
       return false;
     }
   };
 
+  const saveQuizResult = async (tutorialName, result) => {
+    try {
+      const response = await axios.patch(
+        SERVER_URL + "/api/progress/save-quiz-score",
+        {
+          tutorialName,
+          result,
+        },
+        { headers: { authtoken: userDetails.authtoken } }
+      );
+
+      updateTutorialInContext(response.data.updatedTutorial, tutorialName);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const completeTopic = async ({ tutorialName, chapterName, topicName }) => {
-    let newEnrolledTutorials = userDetails.enrolledTutorials.filter(
-      (item) => item.title !== tutorialName
-    );
     try {
       const response = await axios.patch(
         SERVER_URL + "/api/progress/complete-topic",
@@ -164,18 +170,24 @@ export const UserProvider = ({ children }) => {
           headers: { authtoken: userDetails.authtoken },
         }
       );
-
-      newEnrolledTutorials.push(response.data.updatedTutorial);
-      setSingleField({
-        name: "enrolledTutorials",
-        value: newEnrolledTutorials,
-      });
+      updateTutorialInContext(response.data.updatedTutorial, tutorialName);
     } catch (error) {
       console.log(error);
       return false;
     }
   };
 
+  const updateTutorialInContext = (updatedTutorial, tutorialName) => {
+    let newEnrolledTutorials = userDetails.enrolledTutorials.filter(
+      (item) => item.title !== tutorialName
+    );
+    newEnrolledTutorials.push(updatedTutorial);
+    console.log(newEnrolledTutorials);
+    setSingleField({
+      name: "enrolledTutorials",
+      value: newEnrolledTutorials,
+    });
+  };
   const cleanUp = () => {
     setUserDetails({
       username: "",
@@ -206,6 +218,7 @@ export const UserProvider = ({ children }) => {
         setCareerChanged,
         startChapter,
         completeTopic,
+        saveQuizResult,
       }}
     >
       {children}

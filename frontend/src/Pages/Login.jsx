@@ -92,6 +92,7 @@ const Login = () => {
         onChange={handleOnChange}
         error={!!errors.email}
         helperText={errors.email}
+        required
       />
       <TextField
         fullWidth
@@ -104,6 +105,7 @@ const Login = () => {
         error={!!errors.password}
         helperText={errors.password}
         variant="outlined"
+        required
       />
       {/* <Box
         display="flex"

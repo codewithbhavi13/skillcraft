@@ -8,8 +8,10 @@ import {
   Alert,
 } from "@mui/material";
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const { userDetails, setSingleField, signUpUser } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({
@@ -60,9 +62,7 @@ const Signup = () => {
 
   return (
     <Container maxWidth="xs">
-      <Box
-        sx={{ mt: 5, p: 3, boxShadow: 3, borderRadius: 2, textAlign: "center" }}
-      >
+      <Box sx={{ mt: 5, textAlign: "center" }}>
         <Typography variant="h5" gutterBottom>
           Sign Up
         </Typography>
@@ -118,6 +118,15 @@ const Signup = () => {
           </Button>
         </form>
       </Box>
+      <Typography
+        sx={{
+          marginTop: 2,
+          textAlign: "center",
+        }}
+      >
+        Don't have an account?{" "}
+        <Button onClick={() => navigate("/login")}>Log in</Button>
+      </Typography>
     </Container>
   );
 };

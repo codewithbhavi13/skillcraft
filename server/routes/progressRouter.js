@@ -7,9 +7,7 @@ const progressRouter = Router();
 progressRouter.patch("/enroll-tutorial", async (req, res) => {
   const { id } = req.user;
   const { title, noOfChapters } = req.body;
-  console.log("No of Chaptes:", noOfChapters);
   const tutorial = allTutorials.find((item) => item.title === title);
-  console.log("Tutorial: ", tutorial);
   const firstChapter = tutorial.chapters[0];
   const startChapter = {
     name: firstChapter.name,
@@ -154,6 +152,36 @@ progressRouter.patch("/complete-topic", async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ msg: "Server Error", error });
+  }
+});
+
+progressRouter.patch("/save-quiz-score", async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { tutorialName, result } = req.body;
+    const updatedUser = await User.findOneAndUpdate(
+      {
+        _id: id,
+        "enrolledTutorials.title": tutorialName,
+      },
+      {
+        $set: { "enrolledTutorials.$.result": result },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ msg: "Tutorial not found for user." });
+    }
+    console.log(updatedUser);
+    return res.status(200).json({
+      msg: "Score Saved Successfully",
+      updatedTutorial: updatedUser.enrolledTutorials.find(
+        (t) => t.title === tutorialName
+      ),
+    });
+  } catch (err) {
+    return res.status(500).json({ msg: "Server Error", error: err.message });
   }
 });
 
