@@ -7,13 +7,13 @@ import FutureGoal from "../Component/Aboutus/FutureGoal";
 
 const AboutUs = () => {
   return (
-    <Container maxWidth="lg">
-      <Box>
-        <AboutHero />
+    <Box>
+      <AboutHero />
+      <Container maxWidth="lg">
         <UniqueFeature />
         <FutureGoal />
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

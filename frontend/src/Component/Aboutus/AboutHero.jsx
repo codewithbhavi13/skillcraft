@@ -7,7 +7,7 @@ const AboutHero = () => {
     <Box
       sx={{
         height: "50vh", // Full height of the screen
-        width: "100vw", // Full width of the screen
+
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

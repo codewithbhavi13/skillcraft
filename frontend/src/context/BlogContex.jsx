@@ -44,19 +44,19 @@ export const BlogProvider = ({ children }) => {
     ]);
   };
   console.log(blogs);
-  useEffect(() => {
-    const getBlogs = async () => {
-      return await axios.get("http://localhost:5000/api/blog");
-    };
+  // useEffect(() => {
+  //   const getBlogs = async () => {
+  //     return await axios.get("http://localhost:5000/api/blog");
+  //   };
 
-    getBlogs().then((data) => {
-      let alteredBlogs = data.data.map((blog) => {
-        blog.id = blog._id;
-        return blog;
-      });
-      setBlogs(alteredBlogs);
-    });
-  }, []);
+  //   getBlogs().then((data) => {
+  //     let alteredBlogs = data.data.map((blog) => {
+  //       blog.id = blog._id;
+  //       return blog;
+  //     });
+  //     setBlogs(alteredBlogs);
+  //   });
+  // }, []);
   return (
     <BlogContext.Provider value={{ blogs, addBlog }}>
       {children}

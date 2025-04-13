@@ -25,7 +25,7 @@ const startedChapterSchema = new Schema(
 
 const enrolledTutorialSchema = new Schema(
   {
-    name: {
+    title: {
       type: String,
       required: true,
     },
@@ -41,6 +41,9 @@ const enrolledTutorialSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    result: {
+      type: Number,
+    },
   },
   { _id: 0 }
 );
@@ -51,6 +54,10 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     enrolledTutorials: { type: [enrolledTutorialSchema], default: [] },
+    selectedCareer: {
+      type: String,
+      default: "",
+    },
   },
   {
     toJSON: {
@@ -62,6 +69,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema);
 
 export default User;

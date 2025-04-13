@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   TextField,
@@ -70,7 +70,12 @@ const Login = () => {
     loginUser();
   };
 
-  console.log(errors);
+  const { isLogin } = useContext(UserContext);
+  useEffect(() => {
+    if (isLogin) {
+      navigate("/");
+    }
+  }, [isLogin]);
 
   return (
     <Container maxWidth="xs" sx={{ mt: 5, textAlign: "center" }}>
@@ -87,6 +92,7 @@ const Login = () => {
         onChange={handleOnChange}
         error={!!errors.email}
         helperText={errors.email}
+        required
       />
       <TextField
         fullWidth
@@ -99,6 +105,7 @@ const Login = () => {
         error={!!errors.password}
         helperText={errors.password}
         variant="outlined"
+        required
       />
       {/* <Box
         display="flex"

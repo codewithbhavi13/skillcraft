@@ -6,6 +6,9 @@ import tutorialsRouter from "./routes/tutorialRoutor.js";
 import dotenv from "dotenv";
 dotenv.config();
 import authrouter from "./routes/auth.js";
+import { authUser } from "./middlewares/authUser.js";
+import progressRouter from "./routes/progressRouter.js";
+import userPreferences from "./routes/userPreferences.js";
 import blogRouter from "./routes/blogRouter.js";
 //import blogRoutes from "./routes/blogRouter.js";
 
@@ -74,6 +77,8 @@ app.post("/api/courses", async (req, res) => {
 
 app.use("/api/courses", courseRouter);
 app.use("/api/tutorials", tutorialsRouter);
+app.use("/api/progress", authUser, progressRouter);
+app.use("/api/user-preferences", authUser, userPreferences);
 app.use("/api/blog", blogRouter);
 
 app.get("/", (req, res) => {
@@ -81,6 +86,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", authrouter);
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);

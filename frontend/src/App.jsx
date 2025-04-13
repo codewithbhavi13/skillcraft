@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { ThemeProviderComponent } from "./context/ThemeContext";
 import Navbar from "./Component/NavBar";
 import HomePage from "./Pages/HomePage";
@@ -15,6 +15,10 @@ import CoursePage from "./Pages/CoursePage";
 import Tutorial from "./Pages/Tutorial";
 import TopicPage from "./Pages/TopicPage";
 import ChapterPage from "./Pages/ChapterPage";
+import { UserContext } from "./context/UserContext";
+import SideNavigation from "./Component/SideNavigation";
+import { OpenedTutorialProvider } from "./context/OpenedTutorialContext";
+import QuizPage from "./Pages/QuizPage";
 import UserDashboard from "./Pages/UserDashboard";
 
 function App() {
@@ -38,18 +42,83 @@ function App() {
           <Route path="/course/:course">
             <Route index element={<CoursePage />} />
             <Route path=":tutorial">
-              <Route index element={<Tutorial />} />
-              <Route path=":chapter">
-                <Route index element={<ChapterPage />} />
-                <Route path=":topic" element={<TopicPage />} />
+              <Route
+                index
+                element={
+                  <OpenedTutorialProvider>
+                    <Tutorial />
+                  </OpenedTutorialProvider>
+                }
+              />
+              <Route
+                path=":chapter"
+                element={
+                  <OpenedTutorialProvider>
+                    <SideNavigation />
+                  </OpenedTutorialProvider>
+                }
+              >
+                <Route
+                  index
+                  element={
+                    <OpenedTutorialProvider>
+                      <ChapterPage />
+                    </OpenedTutorialProvider>
+                  }
+                />
+                <Route
+                  path=":topic"
+                  element={
+                    <OpenedTutorialProvider>
+                      <TopicPage />
+                    </OpenedTutorialProvider>
+                  }
+                />
               </Route>
             </Route>
           </Route>
           <Route path="/tutorial/:tutorial">
-            <Route index element={<Tutorial />} />
-            <Route path=":chapter">
-              <Route index element={<ChapterPage />} />
-              <Route path=":topic" element={<TopicPage />} />
+            <Route
+              index
+              element={
+                <OpenedTutorialProvider>
+                  <Tutorial />
+                </OpenedTutorialProvider>
+              }
+            />
+            <Route
+              path="quiz"
+              element={
+                <OpenedTutorialProvider>
+                  <QuizPage />
+                </OpenedTutorialProvider>
+              }
+            />
+
+            <Route
+              path=":chapter"
+              element={
+                <OpenedTutorialProvider>
+                  <SideNavigation />
+                </OpenedTutorialProvider>
+              }
+            >
+              <Route
+                index
+                element={
+                  <OpenedTutorialProvider>
+                    <ChapterPage />
+                  </OpenedTutorialProvider>
+                }
+              />
+              <Route
+                path=":topic"
+                element={
+                  <OpenedTutorialProvider>
+                    <TopicPage />
+                  </OpenedTutorialProvider>
+                }
+              />
             </Route>
           </Route>
         </Routes>

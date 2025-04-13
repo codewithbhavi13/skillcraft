@@ -38,6 +38,7 @@ const UniqueFeature = () => {
                 boxShadow: 3,
                 "&:hover": { boxShadow: 6, transform: "translateY(-5px)" },
                 transition: "0.3s",
+                height: "100%",
               }}
             >
               <CardContent>

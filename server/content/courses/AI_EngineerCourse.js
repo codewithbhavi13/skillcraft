@@ -283,7 +283,7 @@ const tutorial1_chapters = [
   },
 ];
 
-export const tutorials = [
+export const aiEngineerTutorials = [
   {
     title: "Introduction to AI Engineer",
     description:
@@ -308,7 +308,7 @@ export const aiEngineerCourse = {
   title: "AI Engineer",
   description:
     "Learn AI engineering fundamentals, pre-trained models, OpenAI API, AI safety, and open-source AI. Build real-world AI applications with industry-leading tools.",
-  tutorials: tutorials,
+  tutorials: aiEngineerTutorials,
   category: "AI & ML",
   path: [],
   thumbnail:

@@ -1,8 +1,8 @@
 import React from "react";
-import { Typography, Grid, Card, CardContent } from "@mui/material";
+import { Typography, Grid, Card, CardContent, Box } from "@mui/material";
 const RecomTutorial = ({ recommandations = [] }) => {
   return (
-    <div style={{ margin: "25px" }}>
+    <Box style={{ margin: "25px" }}>
       <Typography variant="h5" gutterBottom>
         Recommended for you
       </Typography>
@@ -20,7 +20,7 @@ const RecomTutorial = ({ recommandations = [] }) => {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Box>
   );
 };
 export default RecomTutorial;

@@ -5,11 +5,12 @@ import {
   LinearProgress,
   Typography,
   Grid,
+  Box,
 } from "@mui/material";
 
 const OnGoingCourse = ({ ongoing = [] }) => {
   return (
-    <div style={{ marginTop: "25px" }}>
+    <Box style={{ margin: "25px" }}>
       <Typography variant="h5" gutterBottom>
         continue Learning
       </Typography>
@@ -37,7 +38,7 @@ const OnGoingCourse = ({ ongoing = [] }) => {
           <Typography>No ongoing Tutorial.Start Learning Now !</Typography>
         )}
       </Grid>
-    </div>
+    </Box>
   );
 };
 export default OnGoingCourse;

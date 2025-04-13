@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import { Box, Tabs, Tab, Typography, Stack, Grid2 } from "@mui/material";
 import CourseGrid from "./CourseGrid";
 import { CourseContext } from "../../context/CourseContext";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
 import CourseCard from "../Cards/CourseCard";
 import TutorialCard from "../Cards/TutorialCard";
+import { UserContext } from "../../context/UserContext";
 
 const TutorialTabs = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const { selectedCareer } = useContext(UserPreferencesContext);
+  const {
+    userDetails: { selectedCareer },
+  } = useContext(UserContext);
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -18,7 +21,6 @@ const TutorialTabs = () => {
   const recommandedTutorials = tutorials.filter(
     (item) => item.category === selectedCareer
   );
-  console.log(recommandedTutorials);
 
   // Filter courses based on active tab
   const getFilteredCourses = () => {
@@ -107,6 +109,7 @@ const TutorialTabs = () => {
                 sx={{
                   minWidth: 300,
                 }}
+                key={index}
               >
                 <TutorialCard key={index} width={300} tutorial={item} />
               </Grid2>

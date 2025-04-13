@@ -3,8 +3,10 @@ import { Box, Typography, Button, Container } from "@mui/material";
 import { styled } from "@mui/system";
 import HomeImg from "../../assets/homeimg.png"; // Import your image
 import CareerOptionsDialogBox from "./CareerOptionsDialogBox";
-import { UserPreferencesContext } from "../../context/UserPreferencesContext";
 import RecommandedOptionDialogBox from "./RecommandedOptionDialogBox";
+import { UserContext } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { MessageContext } from "../../context/MessageContext";
 
 // Styled components using Material-UI
 const GradientText = styled(Typography)({
@@ -16,12 +18,20 @@ const GradientText = styled(Typography)({
 });
 
 const Recommendation = () => {
+  const navigate = useNavigate();
   const [openDialog, setOpenDialog] = useState(false);
   const [openRecommandations, setOpenRecommandations] = useState(false);
-  const { isCareerChanged, setCareerChanged } = useContext(
-    UserPreferencesContext
-  );
-  const handleOpenDialog = () => setOpenDialog(true);
+  const { isCareerChanged, isLogin, setCareerChanged } =
+    useContext(UserContext);
+  const { setErrorMsg } = useContext(MessageContext);
+  const handleOpenDialog = () => {
+    if (!isLogin) {
+      navigate("/login");
+      setErrorMsg("Please Login First For Recommandations");
+      return;
+    }
+    setOpenDialog(true);
+  };
   const handleCloseDialog = () => setOpenDialog(false);
   const handleOpenRecommandations = () => setOpenRecommandations(true);
   const handleCloseRecommandations = () => {
@@ -48,7 +58,6 @@ const Recommendation = () => {
         sx={{
           width: { xs: "100%", md: "45%" }, // Responsive width
           borderRadius: "12px",
-          boxShadow: 3,
         }}
       />
 

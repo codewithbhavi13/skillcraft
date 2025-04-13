@@ -15,7 +15,7 @@ export const CourseProvider = ({ children }) => {
       .get(SERVER_URL + "/api/tutorials")
       .then((data) => setTutorials(data.data.tutorials));
   }, []);
-
+  console.log(tutorials);
   return (
     <CourseContext.Provider
       value={{ courses, setCourses, tutorials, setTutorials }}

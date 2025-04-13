@@ -24,7 +24,7 @@ export const MessageProvider = ({ children }) => {
 
 const ErrorSnackBar = ({ msg, handleClose }) => {
   return (
-    <Snackbar open={msg} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={msg !== ""} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error" variant="filled">
         {msg}
       </Alert>
@@ -33,7 +33,7 @@ const ErrorSnackBar = ({ msg, handleClose }) => {
 };
 const SuccessSnackBar = ({ msg, handleClose }) => {
   return (
-    <Snackbar open={msg} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={msg !== ""} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="success" variant="filled">
         {msg}
       </Alert>
@@ -42,7 +42,7 @@ const SuccessSnackBar = ({ msg, handleClose }) => {
 };
 const WarningSnackBar = ({ msg, handleClose }) => {
   return (
-    <Snackbar open={msg} autoHideDuration={6000} onClose={handleClose}>
+    <Snackbar open={msg !== ""} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="warning" variant="filled">
         {msg}
       </Alert>

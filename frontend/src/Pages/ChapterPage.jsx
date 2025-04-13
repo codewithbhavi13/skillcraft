@@ -2,16 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CourseContext } from "../context/CourseContext";
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { OpenedTutorialContext } from "../context/OpenedTutorialContext";
 
 export default function ChapterPage() {
   const parms = useParams();
+
   const location = useLocation();
 
   const { tutorials } = useContext(CourseContext);
+
+  const { tutorial, chapter, chapterIndex } = useContext(OpenedTutorialContext);
+  const { setOpenedTutorial, setChapterIndexandChapter } = useContext(
+    OpenedTutorialContext
+  );
   const navigate = useNavigate();
-  const [chapter, setChapter] = useState({});
-  const [tutorial, setTutorial] = useState({});
-  const [chapterIndex, setChapterIndex] = useState({});
 
   const jumpToPreviousChapter = () => {
     navigate(location.pathname.slice(0, -1) + chapterIndex);
@@ -20,27 +24,25 @@ export default function ChapterPage() {
     navigate("topic-1");
   };
   useEffect(() => {
-    const tutorial = tutorials.find(
-      (item) => item.title.toLowerCase() === parms.tutorial.replaceAll("-", " ")
-    );
+    setOpenedTutorial(parms);
+  }, [tutorials, parms]);
 
-    setTutorial(tutorial);
-
-    // const chapter = tutorial.find((item) => item.)
-    const newChapterIndex = parseInt(parms.chapter.at(-1)) - 1;
-
-    if (isNaN(newChapterIndex)) {
-      console.error("error");
-      return;
+  useEffect(() => {
+    if (
+      typeof tutorial === "object" &&
+      tutorial !== null &&
+      Object.keys(tutorial).length !== 0
+    ) {
+      setChapterIndexandChapter(parms);
     }
-    setChapterIndex(newChapterIndex);
-    const chapter = tutorial?.chapters[newChapterIndex];
-    setChapter(chapter);
-  }, [tutorials, location.pathname]);
+  }, [tutorial, parms]);
+
   return (
     <Stack
       sx={{
-        p: 2,
+        px: 5,
+        py: 2,
+
         flexGrow: 1,
         minHeight: window.innerHeight - 66,
         justifyContent: "space-between",

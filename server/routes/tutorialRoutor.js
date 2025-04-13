@@ -1,6 +1,6 @@
 import express from "express";
 // import Tutorial from "../models/tutorial.js";
-import { tutorials } from "../AI_EngineerCourse.js";
+import { allTutorials } from "../content/content.js";
 
 const tutorialsRouter = express.Router();
 
@@ -20,19 +20,6 @@ tutorialsRouter.post("/", async (req, res) => {
 
 // 2️⃣ Get all tutorials
 tutorialsRouter.get("/", async (req, res) => {
-  // termprorary code
-  const allTutorials = [
-    ...tutorials,
-    {
-      category: "Web Development",
-      description: "understand the basic of html with proper symantics",
-      thumbnail: "",
-      title: "Basics of HTML",
-      chapters: [],
-    },
-  ];
-  // termprorary code
-
   try {
     res.status(200).json({ tutorials: allTutorials });
   } catch (error) {

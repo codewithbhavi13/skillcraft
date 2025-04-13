@@ -32,9 +32,6 @@ const HomePage = () => {
       <SpecialFeature />
       <FAQSection />
       {/* <SpecialFeature/> */}
-      <UserDashboard />
-      <RecomTutorial recommandations={recommendations} />
-      <OnGoingCourse ongoing={ongoingTutorial} />
     </>
   );
 };
