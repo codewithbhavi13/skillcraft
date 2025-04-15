@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import UserDetail from "../Component/UserDashboard/UserDetails";
 import RecomTutorial from "../Component/UserDashboard/RecomTutorial";
 import OnGoingCourse from "../Component/UserDashboard/OnGoingCourse";
 import LikeBlog from "../Component/UserDashboard/LikeBlog";
 import Roadmap from "../Component/UserDashboard/Roadmap";
+import { UserContext } from "../context/UserContext";
 const UserDashboard = () => {
+
+  const {enrolledTutorials}  = useContext(UserContext).userDetails;
   const recommendations = [
     {
       title: "Mastering JavaScript Loops",

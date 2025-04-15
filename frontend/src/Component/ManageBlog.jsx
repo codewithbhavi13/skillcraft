@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { BlogContext } from "../context/BlogContex";
+import { BlogContext } from "../context/BlogContext";
 import {
   TextField,
   Button,
@@ -11,6 +11,28 @@ import {
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import {
+  BtnBold,
+  Editor,
+  EditorProvider,
+  Toolbar,
+  BtnBulletList,
+  BtnClearFormatting,
+  BtnItalic,
+  BtnLink,
+  BtnNumberedList,
+  BtnRedo,
+  BtnStrikeThrough,
+  BtnStyles,
+  BtnUnderline,
+  BtnUndo,
+  ContentEditable,
+  DefaultEditor,
+  Dropdown,
+  createDropdown,
+  HtmlButton,
+  Separator,
+} from "react-simple-wysiwyg";
 
 const ManageBlog = () => {
   const { addBlog } = useContext(BlogContext);
@@ -45,6 +67,18 @@ const ManageBlog = () => {
     setImage("");
     setContent("");
   };
+
+  const BtnHtmlTags = createDropdown("HTML Tags", [
+    ["Paragraph", "formatBlock", "P"],
+    ["Heading 1", "formatBlock", "H1"],
+    ["Heading 2", "formatBlock", "H2"],
+    ["Heading 3", "formatBlock", "H3"],
+    ["Blockquote", "formatBlock", "BLOCKQUOTE"],
+    ["Code Block", "formatBlock", "PRE"],
+    ["Section", "formatBlock", "SECTION"],
+    ["Article", "formatBlock", "ARTICLE"],
+    ["Aside", "formatBlock", "ASIDE"],
+  ]);
 
   return (
     <Container maxWidth="md" sx={{ mt: 5 }}>
@@ -87,6 +121,33 @@ const ManageBlog = () => {
           )}
 
           {/* Rich Text Editor for Blog Content */}
+          <EditorProvider>
+            <Editor
+              value={content}
+              containerProps={{ style: { resize: "vertical" } }}
+              onChange={(e) => setContent(e.target.value)}
+            >
+              <Toolbar>
+                <BtnUndo />
+                <BtnRedo />
+                <Separator />
+
+                <BtnBold />
+                <BtnItalic />
+                <BtnUnderline />
+                <BtnStrikeThrough />
+                <Separator />
+                <BtnBulletList />
+                <BtnNumberedList />
+                <Separator />
+                <BtnLink />
+                <BtnClearFormatting />
+                <HtmlButton />
+                <Separator />
+                <BtnHtmlTags />
+              </Toolbar>
+            </Editor>
+          </EditorProvider>
         </CardContent>
 
         <CardActions>

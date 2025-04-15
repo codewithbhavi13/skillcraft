@@ -3,6 +3,7 @@ import Blog from "../models/blog.js";
 import multer from "multer";
 import { uploadFile } from "../uploadFIle.js";
 import fs from "fs";
+import mongoose from "mongoose";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "./uploads/");
@@ -44,6 +45,119 @@ blogRouter.post("/", upload.single("image"), async (req, res) => {
     res.status(201).json(newBlog);
   } catch (err) {
     res.status(500).json({ msg: err.message });
+  }
+});
+
+blogRouter.post("/comment", async (req, res) => {
+  const { id } = req.user;
+  const { blogid, username, message } = req.body;
+  try {
+    const blog = await Blog.findByIdAndUpdate(
+      blogid,
+      {
+        $push: {
+          comments: {
+            userId: id,
+            username,
+            message,
+          },
+        },
+      },
+      { new: true }
+    );
+    if (!blog) {
+      return res.status(400).json({ msg: "something went wrong" });
+    }
+    res.status(200).json({ msg: "Success", done: true, blog });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
+});
+blogRouter.put("/comment", async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { commentId, blogId, message } = req.body;
+    const blog = await Blog.findById(blogId, { comments: 1 });
+    const comment = blog.comments.find(
+      (comment) => comment._id.toString() === commentId
+    );
+    if (comment.userId.toString() !== id.toString()) {
+      return res.status(403).json({ msg: "This is not your comment" });
+    }
+    const updatedBlog = await Blog.findOneAndUpdate(
+      { _id: blogId, "comments._id": commentId },
+      {
+        $set: {
+          "comments.$.message": message,
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: "Sucess", done: true, blog: updatedBlog });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+blogRouter.delete("/comment", async (req, res) => {
+  try {
+    const { id } = req.user;
+    const { commentId, blogId } = req.body;
+    const blog = await Blog.findById(blogId, { comments: 1 });
+    const comment = blog.comments.find(
+      (comment) => comment._id.toString() === commentId
+    );
+
+    if (comment.userId.toString() !== id.toString()) {
+      return res.status(403).json({ msg: "This is not your comment" });
+    }
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      blogId,
+      {
+        $pull: {
+          comments: { _id: commentId },
+        },
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: "Sucess", done: true, blog: updatedBlog });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+blogRouter.post("/like", async (req, res) => {
+  const { id } = req.user;
+  const { blogId } = req.body;
+  try {
+    const blog = await Blog.findById(blogId, { likes: 1 });
+    if (!blog) {
+      return res.status(404).json({ msg: "Blog not found" });
+    }
+    const alreadyLiked = blog.likes.includes(id); // Check if user has already liked
+    let updatedBlog;
+    if (alreadyLiked) {
+      // If already liked, remove the like
+      updatedBlog = await Blog.findByIdAndUpdate(
+        blogId,
+        { $pull: { likes: id } },
+        { new: true }
+      );
+    } else {
+      // If not liked, add the like
+      updatedBlog = await Blog.findByIdAndUpdate(
+        blogId,
+        { $addToSet: { likes: id } },
+        { new: true }
+      );
+    }
+
+    res.status(200).json({ msg: "Success", done: true, blog: updatedBlog });
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
   }
 });
 

@@ -7,13 +7,16 @@ import { CourseProvider } from "./context/CourseContext.jsx";
 import { UserProvider } from "./context/UserContext.jsx";
 import { BrowserRouter, Routes } from "react-router-dom";
 import { MessageProvider } from "./context/MessageContext.jsx";
+import { BlogProvider } from "./context/BlogContext.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <MessageProvider>
         <CourseProvider>
           <UserProvider>
-            <App />
+            <BlogProvider>
+              <App />
+            </BlogProvider>
           </UserProvider>
         </CourseProvider>
       </MessageProvider>

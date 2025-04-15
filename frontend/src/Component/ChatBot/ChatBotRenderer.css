@@ -1,0 +1,15 @@
+.command-block {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-family: "Fira Code", monospace;
+  color: #f8f8f2;
+}
+
+.chat-bot-window ul,
+ol {
+  list-style-position: inside;
+}

@@ -5,19 +5,32 @@ import courseRouter from "./routes/courseRouter.js";
 import tutorialsRouter from "./routes/tutorialRoutor.js";
 import dotenv from "dotenv";
 dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
 import authrouter from "./routes/auth.js";
 import { authUser } from "./middlewares/authUser.js";
 import progressRouter from "./routes/progressRouter.js";
 import userPreferences from "./routes/userPreferences.js";
 import blogRouter from "./routes/blogRouter.js";
-//import blogRoutes from "./routes/blogRouter.js";
+import chatBotRouter from "./routes/chatbotRouter.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
 app.use(express.urlencoded({ extended: true }));
 // Middleware
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
+app.use(express.static(path.join(__dirname, "views")));
+
+// Route to serve index.html from views folder
+app.get("/admin-signup", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "adminsignup.html"));
+});
 
 // MongoDB Connection
 mongoose
@@ -40,21 +53,6 @@ const courseSchema = new mongoose.Schema({
 });
 
 const Course = mongoose.model("Course", courseSchema);
-
-app.post("/", async (req, res) => {
-  const { title, content } = req.body;
-  if (!title || !content)
-    return res.status(400).json({ message: "All fields are required" });
-
-  const newBlog = new Blog({ title, content });
-
-  try {
-    await newBlog.save();
-    res.status(201).json(newBlog);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
 // Course POST Route
 app.post("/api/courses", async (req, res) => {
@@ -79,7 +77,8 @@ app.use("/api/courses", courseRouter);
 app.use("/api/tutorials", tutorialsRouter);
 app.use("/api/progress", authUser, progressRouter);
 app.use("/api/user-preferences", authUser, userPreferences);
-app.use("/api/blog", blogRouter);
+app.use("/api/blog", authUser, blogRouter);
+app.use("/api/chatbot", chatBotRouter);
 
 app.get("/", (req, res) => {
   res.json({ msg: "Hello world" });

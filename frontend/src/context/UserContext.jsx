@@ -17,6 +17,7 @@ export const UserProvider = ({ children }) => {
     authtoken: "",
     enrolledTutorials: [],
     selectedCareer: "",
+    id: "",
   });
   const [isCareerChanged, setCareerChanged] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
@@ -46,7 +47,7 @@ export const UserProvider = ({ children }) => {
         password: userDetails.password,
       });
       setIsLogin(true);
-      setUserDetails(data.user);
+      setUserDetails({ ...data.user, id: response.data.user._id });
       Cookies.set("authtoken", data.user.authtoken);
       navigate("/");
       setSuccessMsg(data.msg);
@@ -65,9 +66,9 @@ export const UserProvider = ({ children }) => {
         password: userDetails.password,
       });
       setIsLogin(true);
-      setUserDetails(data.user);
+      setUserDetails({ ...data.user, id: data.user._id });
       Cookies.set("authtoken", data.user.authtoken);
-      console.log(data);
+
       setSuccessMsg(data.msg);
       navigate("/");
       return data.msg;
@@ -87,7 +88,11 @@ export const UserProvider = ({ children }) => {
       const response = await axios.get(SERVER_URL + "/api/auth/", {
         headers: { authtoken },
       });
-      setUserDetails({ ...response.data.user, authtoken });
+      setUserDetails({
+        ...response.data.user,
+        authtoken,
+        id: response.data.user._id,
+      });
       setIsLogin(true);
       setSuccessMsg(response.data.msg);
     } catch (error) {

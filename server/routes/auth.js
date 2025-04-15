@@ -51,6 +51,38 @@ authrouter.post("/signup", async (req, res) => {
   }
 });
 
+//Register Admin Route
+authrouter.post("/signup-admin", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    // Check if user exists
+    const userExists = await User.findOne({ email });
+    if (userExists)
+      return res.status(400).json({ msg: "Admin already exists" });
+
+    // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    // Create new user
+    await User.insertOne({
+      username,
+      email,
+      password: hashedPassword,
+      role: "admin",
+    });
+    res.status(201).json({
+      msg: "Admin registered successfully",
+      applicationUrl: process.env.CLIENT_URL,
+    });
+    //TODO: remove password if it is there in newUser object
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 // Login Route
 authrouter.post("/signin", async (req, res) => {
   const { email, password } = req.body;
