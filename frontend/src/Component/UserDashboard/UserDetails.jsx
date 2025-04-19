@@ -8,9 +8,9 @@ const UserDetail = () => {
     <Box p={5}>
       <Typography variant="h4">Welcome back, {userDetails.username}</Typography>
       <Box my={3}>
-        <Typography variant="subtitle1">Your Learning Progress</Typography>
-        <LinearProgress variant="determinate" value={70}></LinearProgress>
-        <Typography variant="caption">70% Complete</Typography>
+        <Typography variant="h6">
+          Hello Learning From Here And Design your Great Future
+        </Typography>
       </Box>
     </Box>
   );

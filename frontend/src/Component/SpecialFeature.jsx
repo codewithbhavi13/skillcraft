@@ -1,26 +1,67 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useEffect, useState } from "react";
 import { Box, Typography, Card, CardContent, IconButton } from "@mui/material";
-import { AutoAwesome, School, TrackChanges, Chat, Article, ArrowBack, ArrowForward } from "@mui/icons-material";
-import { ThemeContext } from "../context/ThemeContext"; // Import ThemeContext
+import {
+  AutoAwesome,
+  School,
+  TrackChanges,
+  Chat,
+  Article,
+} from "@mui/icons-material";
+import { ThemeContext } from "../context/ThemeContext";
 
 const features = [
-  { title: "AI-Powered Recommendations", icon: <AutoAwesome fontSize="large" />, description: "Get learning paths based on skills and goals." },
-  { title: "Interactive Tutorials", icon: <School fontSize="large" />, description: "Step-by-step coding exercises from beginner to expert." },
-  { title: "Progress Tracking", icon: <TrackChanges fontSize="large" />, description: "Monitor your progress and coding milestones." },
-  { title: "AI Chatbot Assistant", icon: <Chat fontSize="large" />, description: "Instant coding help and project suggestions." },
-  { title: "Blogs & Insights", icon: <Article fontSize="large" />, description: "Stay updated with industry trends and coding tips." }
+  {
+    title: "Career Recommendations",
+    icon: <AutoAwesome fontSize="large" />,
+    description: "Get learning paths based on skills and goals.",
+  },
+  {
+    title: "Interactive Tutorials",
+    icon: <School fontSize="large" />,
+    description: "Step-by-step coding exercises from beginner to expert.",
+  },
+  {
+    title: "Progress Tracking",
+    icon: <TrackChanges fontSize="large" />,
+    description: "Monitor your progress and coding milestones.",
+  },
+  {
+    title: "AI Chatbot Assistant",
+    icon: <Chat fontSize="large" />,
+    description: "Instant coding help and project suggestions.",
+  },
+  {
+    title: "Blogs & Insights",
+    icon: <Article fontSize="large" />,
+    description: "Stay updated with industry trends and coding tips.",
+  },
 ];
 
 const SpecialFeatures = () => {
-  const { darkMode } = useContext(ThemeContext); // Get darkMode state
-  const scrollRef = useRef(null); // Ref for scrolling container
+  const { darkMode } = useContext(ThemeContext);
+  const scrollRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleScroll = (direction) => {
-    if (scrollRef.current) {
-      const scrollAmount = scrollRef.current.offsetWidth; // Scroll by container width
-      scrollRef.current.scrollBy({ left: direction === "left" ? -scrollAmount : scrollAmount, behavior: "smooth" });
-    }
+  const scrollToIndex = (index) => {
+    const scrollAmount = scrollRef.current.offsetWidth;
+    scrollRef.current.scrollTo({
+      left: scrollAmount * index,
+      behavior: "smooth",
+    });
   };
+
+  const handleNext = () => {
+    const newIndex = (currentIndex + 1) % features.length;
+    setCurrentIndex(newIndex);
+    scrollToIndex(newIndex);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [currentIndex]);
 
   return (
     <Box
@@ -29,7 +70,7 @@ const SpecialFeatures = () => {
         py: 5,
         bgcolor: darkMode ? "#121212" : "#f5f5f5",
         color: darkMode ? "white" : "black",
-        position: "relative"
+        position: "relative",
       }}
     >
       <Typography variant="h4" fontWeight="bold" mb={2}>
@@ -39,48 +80,36 @@ const SpecialFeatures = () => {
         Explore powerful features designed to enhance your coding journey.
       </Typography>
 
-      {/* Scroll Buttons */}
-      <IconButton
-        onClick={() => handleScroll("left")}
-        sx={{
-          position: "absolute",
-          left: 10,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 10,
-          bgcolor: "white",
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)"
-        }}
-      >
-        <ArrowBack sx={{ fontSize: 30, color: darkMode ? "black" : "black" }} />
-      </IconButton>
-
-      {/* Feature Cards Wrapper */}
+      {/* Feature Cards */}
       <Box
         ref={scrollRef}
         sx={{
           display: "flex",
-          overflow: "hidden", // Hides extra cards
+          overflow: "hidden",
           gap: 2,
-          width: "80%", // Set container width to show 3 cards
-          margin: "auto"
+          width: "80%",
+          margin: "auto",
         }}
       >
         {features.map((feature, index) => (
           <Card
             key={index}
             sx={{
-              minWidth: "32%", // Ensures 3 cards are visible
+              minWidth: "32%",
               flex: "0 0 32%",
               bgcolor: darkMode ? "#1E1E1E" : "white",
               color: darkMode ? "white" : "black",
               borderRadius: 3,
               p: 2,
               textAlign: "center",
-              boxShadow: darkMode ? "0px 4px 10px rgba(255,255,255,0.2)" : "0px 4px 10px rgba(0,0,0,0.1)"
+              boxShadow: darkMode
+                ? "0px 4px 10px rgba(255,255,255,0.2)"
+                : "0px 4px 10px rgba(0,0,0,0.1)",
             }}
           >
-            <IconButton sx={{ color: "#4FC3F7", mb: 1 }}>{feature.icon}</IconButton>
+            <IconButton sx={{ color: "#4FC3F7", mb: 1 }}>
+              {feature.icon}
+            </IconButton>
             <CardContent>
               <Typography variant="h6" fontWeight="bold">
                 {feature.title}
@@ -92,21 +121,6 @@ const SpecialFeatures = () => {
           </Card>
         ))}
       </Box>
-
-      <IconButton
-        onClick={() => handleScroll("right")}
-        sx={{
-          position: "absolute",
-          right: 10,
-          top: "50%",
-          transform: "translateY(-50%)",
-          zIndex: 10,
-          bgcolor: "white",
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.2)"
-        }}
-      >
-        <ArrowForward sx={{ fontSize: 30, color: darkMode ? "black" : "black" }} />
-      </IconButton>
     </Box>
   );
 };

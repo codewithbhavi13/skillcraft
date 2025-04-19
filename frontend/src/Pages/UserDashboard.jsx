@@ -5,6 +5,8 @@ import RecomTutorial from "../Component/UserDashboard/RecomTutorial";
 import OnGoingCourse from "../Component/UserDashboard/OnGoingCourse";
 import LikeBlog from "../Component/UserDashboard/LikeBlog";
 import Roadmap from "../Component/UserDashboard/Roadmap";
+import Feedback from "../Component/UserDashboard/Feedback";
+import GoalsUseCase from "../Component/UserDashboard/GoalsUseCase";
 const UserDashboard = () => {
   const recommendations = [
     {
@@ -51,10 +53,10 @@ const UserDashboard = () => {
   return (
     <>
       <UserDetail />
+      <Roadmap roadmap={roadmapData} />
       <RecomTutorial recommandations={recommendations} />
       <OnGoingCourse ongoing={ongoingTutorial} />
       <LikeBlog bloglike={blogLikedList} />
-      <Roadmap roadmap={roadmapData} />
     </>
   );
 };

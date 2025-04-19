@@ -20,6 +20,7 @@ import SideNavigation from "./Component/SideNavigation";
 import { OpenedTutorialProvider } from "./context/OpenedTutorialContext";
 import QuizPage from "./Pages/QuizPage";
 import UserDashboard from "./Pages/UserDashboard";
+import Footer from "./Pages/Footer";
 
 function App() {
   return (
@@ -122,6 +123,7 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        <Footer />
       </BlogProvider>
     </ThemeProviderComponent>
   );

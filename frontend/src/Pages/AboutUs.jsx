@@ -1,18 +1,20 @@
-// src/AboutUs.js
 import React from "react";
 import { Container, Box } from "@mui/material";
 import AboutHero from "../Component/Aboutus/AboutHero";
 import UniqueFeature from "../Component/Aboutus/UniqueFeature";
 import FutureGoal from "../Component/Aboutus/FutureGoal";
+import Mission from "../Component/Aboutus/Mission";
+import ProblemSection from "../Component/Aboutus/ProblemSection";
+import Feedback from "../Component/UserDashboard/Feedback";
 
 const AboutUs = () => {
   return (
     <Box>
       <AboutHero />
-      <Container maxWidth="lg">
-        <UniqueFeature />
-        <FutureGoal />
-      </Container>
+      <Mission />
+      <ProblemSection />
+      <FutureGoal />
+      <Feedback />
     </Box>
   );
 };

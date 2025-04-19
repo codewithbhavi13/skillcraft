@@ -1,54 +1,81 @@
-// src/components/FutureGoals.js
 import React from "react";
-import {
-  Box,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import BuildIcon from "@mui/icons-material/Build";
-import GroupIcon from "@mui/icons-material/Group";
-import SmartphoneIcon from "@mui/icons-material/Smartphone";
-import GamesIcon from "@mui/icons-material/Games";
+import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
+import { styled } from "@mui/system";
 
 const goals = [
   {
-    icon: <RocketLaunchIcon color="primary" />,
-    title: "AI-Powered Enhancements",
+    title: "Gamification Features",
+    description:
+      "Introduce badges, levels, and leaderboards to keep users engaged.",
   },
-  { icon: <BuildIcon color="primary" />, title: "Live Coding Environment" },
   {
-    icon: <GamesIcon color="primary" />,
-    title: "Gamified Learning Experience",
+    title: "Mobile App Development",
+    description: "Develop SkillCraft for iOS and Android platforms.",
   },
-  { icon: <GroupIcon color="primary" />, title: "Community Building" },
-  { icon: <SmartphoneIcon color="primary" />, title: "Mobile App Expansion" },
+  {
+    title: "Code Review System",
+    description:
+      "Allow users to submit code for  providing feedback and improvement tips.",
+  },
+  {
+    title: "Interactive Code Playgrounds",
+    description:
+      "Allow users to write, test, and share code in an interactive environment .",
+  },
+  {
+    title: "Community Features",
+    description: "Enable users to share, collaborate, and discuss coding.",
+  },
+
+  {
+    title: "Real-time Collaboration",
+    description: "Allow real-time collaboration on coding challenges.",
+  },
 ];
 
-const FutureGoal = () => {
+const StyledCard = styled(Card)(({ theme }) => ({
+  borderRadius: "16px",
+  overflow: "hidden",
+  boxShadow: "0 4px 10px rgba(0,0,0,0.15)",
+  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+
+  "&:hover": {
+    transform: "scale(1.05)",
+    boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+  },
+}));
+
+const FutureGoalsGrid = () => {
   return (
-    <Box
-      sx={{
-        py: 5,
-        textAlign: "center",
-      }}
-    >
-      <Typography variant="h4" gutterBottom color="primary">
-        Future Goals
+    <Box sx={{ flexGrow: 1, mt: 6, textAlign: "center" }}>
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: "bold",
+          mb: 4,
+
+          padding: "10px 20px",
+          borderRadius: "12px",
+        }}
+      >
+        Our Future Goals
       </Typography>
-      <List sx={{ maxWidth: 600, margin: "0 auto" }}>
+      <Grid container spacing={3} marginBottom={7}>
         {goals.map((goal, index) => (
-          <ListItem key={index}>
-            <ListItemIcon>{goal.icon}</ListItemIcon>
-            <ListItemText primary={goal.title} />
-          </ListItem>
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <StyledCard>
+              <CardContent>
+                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                  {goal.title}
+                </Typography>
+                <Typography variant="body2">{goal.description}</Typography>
+              </CardContent>
+            </StyledCard>
+          </Grid>
         ))}
-      </List>
+      </Grid>
     </Box>
   );
 };
 
-export default FutureGoal;
+export default FutureGoalsGrid;

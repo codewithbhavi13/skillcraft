@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Card,
   CardContent,
@@ -7,8 +7,11 @@ import {
   Grid,
   Box,
 } from "@mui/material";
+import { UserContext } from "../../context/UserContext";
 
 const OnGoingCourse = ({ ongoing = [] }) => {
+  const {enrolledTutorials} = useContext(UserContext).userDetails;
+  console.log(enrolledTutorials);
   return (
     <Box style={{ margin: "25px" }}>
       <Typography variant="h5" gutterBottom>
