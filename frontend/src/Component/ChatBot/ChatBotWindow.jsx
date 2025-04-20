@@ -7,10 +7,12 @@ import { atomDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Markdown from "react-markdown";
 import { UserContext } from "../../context/UserContext";
 import "./ChatBotRenderer.css";
+import { ThemeContext } from "../../context/ThemeContext";
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 const ChatBotWindow = ({ opened }) => {
   const { id } = useContext(UserContext).userDetails;
+  const { darkMode } = useContext(ThemeContext);
   const [messages, setMessages] = useState([
     {
       sender: "bot",
@@ -67,12 +69,15 @@ const ChatBotWindow = ({ opened }) => {
           mx: "auto",
           mt: 4,
           p: 2,
-          border: "1px solid #ddd",
-          backgroundColor: "whitesmoke",
+          border: `1px solid ${
+            darkMode ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 0, 0, 0.12)"
+          }`,
+          backgroundColor: darkMode ? " #1e1e1e" : "#f5f5f5",
           borderRadius: 2,
           position: "fixed",
-          bottom: "100px",
+          bottom: "85px",
           right: "20px",
+          zIndex: 9999,
         }}
       >
         <Paper
@@ -100,8 +105,8 @@ const ChatBotWindow = ({ opened }) => {
               {msg.sender === "bot" ? (
                 <Typography
                   sx={{
-                    bgcolor: "grey.300",
-                    color: "black",
+                    bgcolor: darkMode ? "grey.900" : "grey.300",
+                    color: darkMode ? "white" : "black",
                     p: 1,
                     borderRadius: 1,
                     maxWidth: "75%",
@@ -113,7 +118,7 @@ const ChatBotWindow = ({ opened }) => {
                 <Typography
                   sx={{
                     bgcolor: "primary.main",
-                    color: "white",
+                    color: darkMode ? "black" : "white",
                     p: 1,
                     borderRadius: 1,
                     maxWidth: "75%",

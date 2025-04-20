@@ -151,6 +151,17 @@ export const OpenedTutorialProvider = ({ children }) => {
     );
     return completedTopic !== undefined;
   };
+  const clearData = () => {
+    setTutorial({});
+    setChapter({});
+    setTopic({});
+    setOpenChapters({});
+    setIsEnrolled(false);
+    setEnrolledTutorial({});
+    setEnrollLoading(false);
+    setChapterIndex(-1);
+    setTopicIndex(-1);
+  };
   return (
     <OpenedTutorialContext.Provider
       value={{
@@ -170,6 +181,7 @@ export const OpenedTutorialProvider = ({ children }) => {
         topic,
         topicIndex,
         tutorial,
+        clearData,
       }}
     >
       {children}

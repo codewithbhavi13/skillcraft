@@ -21,6 +21,8 @@ import QuizPage from "./Pages/QuizPage";
 import UserDashboard from "./Pages/UserDashboard";
 import Draggable from "react-draggable";
 import ChatBotBtn from "./Component/ChatBot/ChatBotBtn";
+import { useEffect } from "react";
+import { AdminProvider } from "./context/AdminContext";
 
 function App() {
   return (
@@ -34,8 +36,15 @@ function App() {
         <Route path="/tutorial" element={<TutorialPage />} />
 
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/userdashboard" element={<UserDashboard />} />
-        <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route
+          path="/admin/*"
+          element={
+            <AdminProvider>
+              <AdminDashboard />
+            </AdminProvider>
+          }
+        />
 
         <Route path="/blog">
           <Route index element={<BlogPage />} />

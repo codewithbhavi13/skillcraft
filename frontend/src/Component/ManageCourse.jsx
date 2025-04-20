@@ -1,5 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TextField, Button, Card, CardContent, Typography, Container, Box } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  Typography,
+  Container,
+  Box,
+} from "@mui/material";
 import { Add } from "@mui/icons-material";
 import axios from "axios";
 import { CourseContext } from "../context/CourseContext";
@@ -12,23 +20,26 @@ const ManageCourse = () => {
     category: "",
   });
 
-  const {courses, setCourses} = useContext(CourseContext)  
-  
+  const { courses, setCourses } = useContext(CourseContext);
+
   const handleChange = (e) => {
     setNewCourse({ ...newCourse, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       // Send the course data to the backend API
-      const response = await axios.post("http://localhost:5000/api/courses", newCourse);
-      
+      const response = await axios.post(
+        "http://localhost:5000/api/courses",
+        newCourse
+      );
+
       // Handle successful response
       console.log(response.data);
-      setCourses((prev) =>[...prev, response.data])
-      
+      setCourses((prev) => [...prev, response.data]);
+
       // Reset form
       setNewCourse({ title: "", image: "", description: "", category: "" });
     } catch (error) {
@@ -46,7 +57,7 @@ const ManageCourse = () => {
       }
     }
   };
-useEffect(() => console.log(courses), [courses])
+
   return (
     <Container maxWidth="sm">
       <Card sx={{ mt: 5, p: 3, boxShadow: 3 }}>
@@ -99,13 +110,19 @@ useEffect(() => console.log(courses), [courses])
               variant="outlined"
               fullWidth
               margin="normal"
-                value={newCourse.category}
+              value={newCourse.category}
               onChange={handleChange}
               required
             />
 
             {/* Submit Button */}
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+            >
               Add Course
             </Button>
           </form>

@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -8,12 +8,29 @@ import CardActionArea from "@mui/material/CardActionArea";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { MessageContext } from "../../context/MessageContext";
+import { Button, CardActions } from "@mui/material";
 
 export default function TutorialCard({ tutorial, width }) {
   const parms = useParams();
   const navigate = useNavigate();
   const { isLogin } = useContext(UserContext);
   const { setErrorMsg } = useContext(MessageContext);
+  const [expanded, setExpanded] = useState(false);
+  const toggleReadMore = () => {
+    setExpanded((prev) => !prev);
+  };
+  const descriptionlimit = 100;
+  const titlelimit = 50;
+  const isLongDescriptoin = tutorial.description.length > descriptionlimit;
+  const isLongTitle = tutorial.title.length > titlelimit;
+  const displayedDescription =
+    expanded || !isLongDescriptoin
+      ? tutorial.description
+      : tutorial.description.substring(0, descriptionlimit) + "…";
+  const displayedTitle =
+    expanded || !isLongTitle
+      ? tutorial.title
+      : tutorial.title.substring(0, titlelimit) + "…";
   const handleOnTutorialClick = () => {
     if (!isLogin) return setErrorMsg("Please Login First");
     const addToPath = tutorial.title.toLowerCase().replaceAll(" ", "-");
@@ -23,6 +40,7 @@ export default function TutorialCard({ tutorial, width }) {
       navigate("/tutorial/" + addToPath);
     }
   };
+
   return (
     <Card
       sx={{
@@ -31,15 +49,7 @@ export default function TutorialCard({ tutorial, width }) {
         borderRadius: 3,
       }}
     >
-      <CardActionArea
-        sx={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-        }}
-        onClick={handleOnTutorialClick}
-      >
+      <CardActionArea onClick={handleOnTutorialClick}>
         <CardMedia
           component="img"
           height="170"
@@ -49,20 +59,27 @@ export default function TutorialCard({ tutorial, width }) {
         <CardContent sx={{ width: "inherit" }}>
           <Typography
             gutterBottom
-            variant="h5"
+            variant="h6"
             component="div"
             sx={{ whiteSpace: "wrap" }}
           >
-            {tutorial.title}
+            {displayedTitle}
           </Typography>
           <Typography
             variant="body2"
-            sx={{ color: "text.secondary", whiteSpace: "normal" }}
+            sx={{ color: "text.secondary", whiteSpace: "collapse" }}
           >
-            {tutorial.description}
+            {displayedDescription}
           </Typography>
         </CardContent>
       </CardActionArea>
+      <CardActions>
+        {(isLongDescriptoin || isLongTitle) && (
+          <Button onClick={toggleReadMore} size="small">
+            {expanded ? "Read less" : "Read more"}
+          </Button>
+        )}
+      </CardActions>
     </Card>
   );
 }

@@ -84,6 +84,10 @@ progressRouter.patch("/complete-topic", async (req, res) => {
   const { id } = req.user; // Get user ID
   const { tutorialName, chapterName, topicName } = req.body;
 
+  if (!(tutorialName && chapterName && topicName)) {
+    return res.status(422).json({ msg: "Something is Missing" });
+  }
+
   try {
     let updatedUser = await User.findOneAndUpdate(
       {

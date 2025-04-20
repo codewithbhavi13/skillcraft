@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { data } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { MessageContext } from "./MessageContext";
 
@@ -9,9 +8,9 @@ export const BlogContext = createContext();
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 export const BlogProvider = ({ children }) => {
   const [blogs, setBlogs] = useState([]);
-  console.log(blogs);
+
   const { authtoken, username } = useContext(UserContext).userDetails;
-  const { setErrorMsg } = useContext(MessageContext);
+  const { setErrorMsg, setSuccessMsg } = useContext(MessageContext);
   const addBlog = async (newBlog) => {
     const { title, image, content } = newBlog;
     const jsonData = {
@@ -21,6 +20,7 @@ export const BlogProvider = ({ children }) => {
     const formData = new FormData();
     formData.append("jsonData", JSON.stringify(jsonData));
     formData.append("image", image);
+
     let responseData;
     try {
       const response = await axios.post(SERVER_URL + "/api/blog", formData, {
@@ -31,16 +31,57 @@ export const BlogProvider = ({ children }) => {
       });
 
       responseData = response.data;
+      setBlogs([
+        ...blogs,
+        {
+          ...responseData,
+          id: responseData._id,
+        },
+      ]);
     } catch (error) {
       console.error("Error uploading:", error);
     }
-    setBlogs([
-      ...blogs,
-      {
-        ...responseData,
-        id: responseData._id,
-      },
-    ]);
+  };
+  const editBlog = async ({ title, image, content, id }) => {
+    const jsonData = {
+      title,
+      content,
+      blogId: id,
+    };
+    const formData = new FormData();
+    formData.append("jsonData", JSON.stringify(jsonData));
+    if (image) {
+      formData.append("image", image);
+    }
+
+    try {
+      const response = await axios.put(SERVER_URL + "/api/blog", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authtoken: authtoken,
+        },
+      });
+      setSuccessMsg(response.data.msg);
+      updateBlogs({ ...response.data.blog, id: response.data.blog._id });
+    } catch (error) {
+      console.error("Error uploading:", error);
+    }
+  };
+
+  const deleteBlog = async (id) => {
+    try {
+      const { data, status } = await axios.delete(SERVER_URL + "/api/blog", {
+        data: { blogId: id },
+        headers: { authtoken },
+      });
+      if (status === 200) {
+        setBlogs(blogs.filter((blog) => blog.id !== id));
+      } else {
+        setErrorMsg(data.msg);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const addComment = async (blogid, message) => {
@@ -56,7 +97,6 @@ export const BlogProvider = ({ children }) => {
           headers: { authtoken },
         }
       );
-      console.log(response.data);
       updateBlogs({ ...response.data.blog, id: response.data.blog._id });
     } catch (error) {
       console.log(error);
@@ -66,7 +106,6 @@ export const BlogProvider = ({ children }) => {
 
   const updateBlogs = (updatedBlog) => {
     const otherBlogs = blogs.filter((blog) => blog.id !== updatedBlog.id);
-    console.log(updatedBlog);
     setBlogs([...otherBlogs, updatedBlog]);
   };
 
@@ -124,7 +163,6 @@ export const BlogProvider = ({ children }) => {
   };
 
   const getBlogs = async () => {
-    console.log("My Authtoken:", authtoken.length);
     if (
       authtoken.trim() !== "" &&
       authtoken !== undefined &&
@@ -150,6 +188,8 @@ export const BlogProvider = ({ children }) => {
       value={{
         blogs,
         addBlog,
+        editBlog,
+        deleteBlog,
         addComment,
         deleteComment,
         editComment,

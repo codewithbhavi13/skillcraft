@@ -47,8 +47,8 @@ export const UserProvider = ({ children }) => {
         password: userDetails.password,
       });
       setIsLogin(true);
-      setUserDetails({ ...data.user, id: response.data.user._id });
-      Cookies.set("authtoken", data.user.authtoken);
+      setUserDetails({ ...data.user, id: data.user._id });
+      Cookies.set("authtoken", data.user.authtoken, { expires: 365 });
       navigate("/");
       setSuccessMsg(data.msg);
       return data.msg;
@@ -67,10 +67,11 @@ export const UserProvider = ({ children }) => {
       });
       setIsLogin(true);
       setUserDetails({ ...data.user, id: data.user._id });
-      Cookies.set("authtoken", data.user.authtoken);
+      Cookies.set("authtoken", data.user.authtoken, { expires: 365 });
 
       setSuccessMsg(data.msg);
-      navigate("/");
+      if (data.user.role === "user") navigate("/dashboard");
+      else navigate("/admin");
       return data.msg;
     } catch (error) {
       console.log("Error", error);
@@ -82,6 +83,8 @@ export const UserProvider = ({ children }) => {
   const getUser = async () => {
     const authtoken = Cookies.get("authtoken");
     if (!authtoken) {
+      setErrorMsg("Please Login First");
+      navigate("/login");
       return;
     }
     try {
@@ -98,6 +101,7 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
       setErrorMsg("Login Failed");
+      navigate("/login");
     }
   };
 
@@ -163,6 +167,9 @@ export const UserProvider = ({ children }) => {
   };
 
   const completeTopic = async ({ tutorialName, chapterName, topicName }) => {
+    console.log({ tutorialName, chapterName, topicName });
+    if (!(tutorialName && chapterName && topicName))
+      return console.log("Missing");
     try {
       const response = await axios.patch(
         SERVER_URL + "/api/progress/complete-topic",

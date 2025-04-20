@@ -13,6 +13,7 @@ import progressRouter from "./routes/progressRouter.js";
 import userPreferences from "./routes/userPreferences.js";
 import blogRouter from "./routes/blogRouter.js";
 import chatBotRouter from "./routes/chatbotRouter.js";
+import User from "./models/user.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -67,11 +68,21 @@ app.post("/api/courses", async (req, res) => {
   }
 });
 
-// app.get("/api/courses", async (req, res) => {
-//   const courses = await Course.find();
+app.get("/api/users", authUser, async (req, res) => {
+  try {
+    const { role } = req.user;
+    if (role !== "admin")
+      return res
+        .status(401)
+        .json({ msg: "Your not Authenrized for this route" });
 
-//   res.status(200).json({ courses });
-// });
+    const users = await User.find({ role: "user" });
+
+    res.status(200).json({ msg: "Sucess", users });
+  } catch (error) {
+    res.status(500).json({ msg: "Internal Sever Error" });
+  }
+});
 
 app.use("/api/courses", courseRouter);
 app.use("/api/tutorials", tutorialsRouter);

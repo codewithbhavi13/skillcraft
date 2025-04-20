@@ -29,7 +29,7 @@ export default function ChatBotBtn() {
       <Draggable onDrag={handleDragging} onStop={handleStop} nodeRef={nodeRef}>
         <div
           ref={nodeRef}
-          style={{ position: "fixed", bottom: 16, right: 16, zIndex: 9999 }}
+          style={{ position: "fixed", bottom: 16, right: 30, zIndex: 9999 }}
         >
           <Fab
             onClick={handleOnClick}

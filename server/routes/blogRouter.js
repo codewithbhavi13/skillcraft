@@ -48,6 +48,54 @@ blogRouter.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
+blogRouter.put("/", upload.single("image"), async (req, res) => {
+  const { title, content, blogId } = JSON.parse(req.body.jsonData);
+  console.log(req.body);
+  let updatefields = {
+    title,
+    content,
+  };
+  try {
+    if (req.file) {
+      const filePath = req.file.destination + req.file.filename;
+      const fileBuffer = fs.readFileSync(filePath);
+      updatefields.image = await uploadFile(fileBuffer, req.file.filename);
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      blogId,
+      {
+        $set: updatefields,
+      },
+      { new: true }
+    );
+
+    res.status(200).json({ msg: "Updated", blog: updatedBlog });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
+blogRouter.delete("/", async (req, res) => {
+  const { role } = req.user;
+  const { blogId } = req.body;
+
+  try {
+    if (role !== "admin")
+      return res.status(403).json({ msg: "Not Authorized" });
+    const blog = await Blog.findByIdAndDelete(blogId);
+    console.log(blog);
+    if (blog) {
+      res.status(200).json({ msg: "Deleted Sucessfully", done: true });
+    } else {
+      res.status(404).json({ msg: "Blog not found", done: false });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 blogRouter.post("/comment", async (req, res) => {
   const { id } = req.user;
   const { blogid, username, message } = req.body;

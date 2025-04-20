@@ -7,22 +7,18 @@ import TutorialCard from "../Cards/TutorialCard";
 import { UserContext } from "../../context/UserContext";
 
 const TutorialTabs = () => {
+  const { courses, tutorials } = useContext(CourseContext);
   const [activeTab, setActiveTab] = useState(0);
-  const {
-    userDetails: { selectedCareer },
-  } = useContext(UserContext);
+  const { selectedCareer } = useContext(UserContext).userDetails;
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  // Sample course data
-  const { courses, tutorials } = useContext(CourseContext);
   const recommandedTutorials = tutorials.filter(
     (item) => item.category === selectedCareer
   );
 
-  // Filter courses based on active tab
   const getFilteredCourses = () => {
     switch (activeTab) {
       case 0:
@@ -30,10 +26,6 @@ const TutorialTabs = () => {
           (course) => course.category.toLowerCase() === "web development"
         );
       case 1:
-        return courses.filter(
-          (course) => course.category.toLowerCase() === "backend development"
-        );
-      case 2:
         return courses.filter((item) => item.category === selectedCareer); // For simplicity, show all courses as recommended
       default:
         return courses;
@@ -44,16 +36,13 @@ const TutorialTabs = () => {
     <Box sx={{ width: "100%", mt: 4 }}>
       <Tabs value={activeTab} onChange={handleTabChange} centered>
         <Tab label="Most Popular" />
-        <Tab label="Best Seller" />
         <Tab label="Recommended for You" />
       </Tabs>
       <TabPanel value={activeTab} index={0}>
         <CourseGrid courses={getFilteredCourses()} />
       </TabPanel>
+
       <TabPanel value={activeTab} index={1}>
-        <CourseGrid courses={getFilteredCourses()} />
-      </TabPanel>
-      <TabPanel value={activeTab} index={2}>
         <Typography
           sx={{
             mb: 2,

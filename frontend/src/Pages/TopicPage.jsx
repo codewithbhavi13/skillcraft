@@ -18,12 +18,14 @@ export default function TopicPage() {
     chapterIndex,
     enrolledTutorial,
     isTopicCompleted,
+    clearData,
   } = useContext(OpenedTutorialContext);
 
   const jumpToChapterPage = () => {
     navigate(location.pathname.replace(/\/topic-\d+$/, ""));
   };
   const jumpToNextChapter = () => {
+    clearData();
     navigate(
       location.pathname.replace(/\/topic-\d+$/, "").slice(0, -1) +
         (chapterIndex + 2)
@@ -54,17 +56,18 @@ export default function TopicPage() {
 
   useEffect(() => {
     const setCompleteTopic = () => {
-      if (!isTopicCompleted(chapter.name, topic.name)) {
-        completeTopic({
-          tutorialName: tutorial.title,
-          chapterName: chapter.name,
-          topicName: topic.name,
-        });
+      if (tutorial.title && chapter.name && topic.name) {
+        if (!isTopicCompleted(chapter.name, topic.name)) {
+          completeTopic({
+            tutorialName: tutorial.title,
+            chapterName: chapter.name,
+            topicName: topic.name,
+          });
+        }
       }
     };
     setCompleteTopic();
-  });
-
+  }, [topic]);
   return (
     <Stack
       sx={{

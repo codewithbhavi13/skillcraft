@@ -1,6 +1,11 @@
 import { Box, List, ListItem, ListItemText, Typography } from "@mui/material";
 
-const categories = ["Web Development", "Backend Development", "AI & ML", "Cybersecurity"];
+const categories = [
+  "Web Development",
+  "Backend Development",
+  "AI & ML",
+  "Cyber Security",
+];
 
 const TSideBar = () => {
   return (
