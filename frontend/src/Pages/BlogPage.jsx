@@ -20,12 +20,16 @@ import {
   Grid2,
   Stack,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
+import { MessageContext } from "../context/MessageContext";
 
 const BlogPage = () => {
   const { blogs, refreshBlogs } = useContext(BlogContext);
-
+  const { isLogin } = useContext(UserContext);
+  const { setWarningMsg } = useContext(MessageContext);
+  const navigate = useNavigate();
   const { darkMode, setDarkMode } = useContext(ThemeContext);
   const theme = useTheme();
 
@@ -61,6 +65,13 @@ const BlogPage = () => {
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  useEffect(() => {
+    if (!isLogin) {
+      setWarningMsg("Please Login First");
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <Container maxWidth="lg">

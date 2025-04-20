@@ -8,8 +8,12 @@ import LikeBlog from "../Component/UserDashboard/LikeBlog";
 import Roadmap from "../Component/UserDashboard/Roadmap";
 import { CourseContext } from "../context/CourseContext";
 import { BlogContext } from "../context/BlogContext";
-import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { MessageContext } from "../context/MessageContext";
 const UserDashboard = () => {
+  const navigate = useNavigate();
+  const { isLogin } = useContext(UserContext);
+  const { setWarningMsg } = useContext(MessageContext);
   const { enrolledTutorials, selectedCareer, id } =
     useContext(UserContext).userDetails;
   const { tutorials } = useContext(CourseContext);
@@ -153,12 +157,17 @@ const UserDashboard = () => {
     setOnGoingTutorials(onGoing);
   };
   useEffect(() => {
+    if (!isLogin) {
+      setWarningMsg("Please Login First");
+      navigate("/login");
+    }
     setContinueTutorials();
     setCareerProgress(calculateCareerProgress());
     setRecommandedTutorials();
     setBlogLikedList(
       blogs.filter((blog) => blog.likes.find((likeid) => likeid == id))
     );
+
     calculateRoadMapData();
   }, [enrolledTutorials, blogs, tutorials]);
 
