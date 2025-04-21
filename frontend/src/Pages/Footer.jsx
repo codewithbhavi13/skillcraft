@@ -1,5 +1,5 @@
 // components/Footer.jsx
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Typography,
@@ -10,8 +10,12 @@ import {
   Divider,
 } from "@mui/material";
 import { GitHub, LinkedIn, Email } from "@mui/icons-material";
+import { NavLink, useLocation } from "react-router-dom";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Footer = () => {
+  const { pathname } = useLocation();
+  const { darkMode } = useContext(ThemeContext);
   return (
     <Box
       component="footer"
@@ -21,6 +25,7 @@ const Footer = () => {
         px: { xs: 2, sm: 6 },
         py: { xs: 4, sm: 6 },
         mt: "auto",
+        ml: pathname.includes("/admin") && "250px",
       }}
     >
       <Grid container spacing={6}>
@@ -41,20 +46,60 @@ const Footer = () => {
             Quick Links
           </Typography>
           <Stack spacing={1}>
-            <Link href="/" underline="hover" color="inherit">
-              Home
+            <Link underline="hover" color="inherit">
+              <NavLink
+                style={{
+                  color: darkMode ? "white" : "black",
+                  textDecoration: "none",
+                }}
+                to={"/"}
+              >
+                Home
+              </NavLink>
             </Link>
-            <Link href="/tutorial" underline="hover" color="inherit">
-              Tutorials
+            <Link underline="hover" color="inherit">
+              <NavLink
+                style={{
+                  color: darkMode ? "white" : "black",
+                  textDecoration: "none",
+                }}
+                to={"/tutorial"}
+              >
+                Tutorials
+              </NavLink>
             </Link>
-            <Link href="/blog" underline="hover" color="inherit">
-              Blog
+            <Link underline="hover" color="inherit">
+              <NavLink
+                style={{
+                  color: darkMode ? "white" : "black",
+                  textDecoration: "none",
+                }}
+                to={"/blog"}
+              >
+                Blog
+              </NavLink>
             </Link>
-            <Link href="/aboutus" underline="hover" color="inherit">
-              About Us
+            <Link underline="hover" color="inherit">
+              <NavLink
+                style={{
+                  color: darkMode ? "white" : "black",
+                  textDecoration: "none",
+                }}
+                to={"/aboutus"}
+              >
+                About Us
+              </NavLink>
             </Link>
             <Link href="/login" underline="hover" color="inherit">
-              Login / Register
+              <NavLink
+                style={{
+                  color: darkMode ? "white" : "black",
+                  textDecoration: "none",
+                }}
+                to={"/login"}
+              >
+                Login / Register
+              </NavLink>
             </Link>
           </Stack>
         </Grid>

@@ -5,7 +5,7 @@ const CourseGrid = ({ courses = [] }) => {
   return (
     <Grid2 container spacing={3}>
       {courses.map((course, index) => (
-        <Grid2 item xs={12} sm={6} md={4} key={index}>
+        <Grid2 xs={12} sm={6} md={4} key={index}>
           <CourseCard course={course} />
         </Grid2>
       ))}

@@ -1,100 +1,144 @@
 import React, { useState, useContext } from "react";
-import { BlogContext } from "../context/BlogContex";
+import { BlogContext } from "../context/BlogContext";
 import {
-  TextField,
   Button,
   Typography,
   Container,
   Card,
   CardContent,
   CardActions,
+  Box,
+  Grid2,
+  CardMedia,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Stack,
 } from "@mui/material";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
+import { useNavigate } from "react-router-dom";
+import BlogForm from "./AdminDashboard/BlogForm";
+import { Favorite } from "@mui/icons-material";
+
 const ManageBlog = () => {
-  const { addBlog } = useContext(BlogContext);
-  const [title, setTitle] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [image, setImage] = useState(""); // Image Preview URL
-  const [content, setContent] = useState("");
+  const { addBlog, blogs, deleteBlog, editBlog } = useContext(BlogContext);
+  const navigate = useNavigate();
 
-  // Handle Image Upload from Computer
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-
-    if (file) {
-      setImage(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageUrl(reader.result); // Set image as base64 URL
-      };
-      reader.readAsDataURL(file);
-    }
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const handleOpenDeleteDialog = () => setDeleteDialog(true);
+  const handleCloseDeleteDialog = () => setDeleteDialog(false);
+  const handleDeleteBlog = (id) => {
+    deleteBlog(id);
+    handleCloseDeleteDialog();
   };
+  const [editDialog, setEditDialog] = useState(false);
+  const handleOpenEditDialog = () => setEditDialog(true);
+  const handleCloseEditDialog = () => setEditDialog(false);
+  const handleEditBlog = (title, image, content, id) => {
+    editBlog({ title, image, content, id });
+    handleCloseEditDialog();
+  };
+  // Handle Image Upload from Computer
 
   // Handle Blog Submission
-  const handleSubmit = () => {
-    // if (!title || !image || !content) {
-    //   alert("All fields are required!");
-    //   return;
-    // }
-
+  const handleSubmit = (title, image, content, id) => {
+    if (!title || !image || !content) {
+      alert("All fields are required!");
+      return;
+    }
     addBlog({ title, image, content });
-    setTitle("");
-    setImage("");
-    setContent("");
   };
 
   return (
-    <Container maxWidth="md" sx={{ mt: 5 }}>
-      <Card sx={{ p: 3, boxShadow: 3, borderRadius: 2 }}>
-        <CardContent>
-          <Typography variant="h4" sx={{ mb: 3, fontWeight: "bold" }}>
-            Create Blog
-          </Typography>
-
-          {/* Blog Title */}
-          <TextField
-            fullWidth
-            label="Blog Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            sx={{ mb: 2 }}
-          />
-
-          {/* Image Upload */}
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ marginBottom: "10px" }}
-          />
-
-          {/* Image Preview */}
-          {image && (
-            <img
-              src={imageUrl}
-              alt="Uploaded Preview"
-              style={{
-                width: "100%",
-                maxHeight: "300px",
-                marginBottom: "10px",
-                borderRadius: "8px",
-                objectFit: "cover",
-              }}
-            />
-          )}
-
-          {/* Rich Text Editor for Blog Content */}
-        </CardContent>
-
-        <CardActions>
-          <Button variant="contained" fullWidth onClick={handleSubmit}>
-            Publish Blog
-          </Button>
-        </CardActions>
-      </Card>
+    <Container sx={{ mt: 5 }}>
+      <BlogForm
+        formTitle="Create Blog"
+        submitBtnText="Publish Blog"
+        data={false}
+        handleSubmit={handleSubmit}
+      />
+      <Box sx={{ mt: 5 }}>
+        <Typography sx={{ my: 1 }} variant="h5">
+          Existing Blogs
+        </Typography>
+        <Grid2 spacing={2} columns={{ xs: 4, sm: 8, md: 12 }} container>
+          {blogs.map((blog, index) => (
+            <Grid2 key={index} size={{ xs: 2, sm: 4, md: 4 }}>
+              <Card>
+                <CardMedia sx={{ height: 150 }} image={blog.image} />
+                <CardContent>
+                  <Stack
+                    direction={"row"}
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography variant="h6">{blog.title}</Typography>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      {blog.likes.length} &nbsp;
+                      <Favorite color="error" />
+                    </Box>
+                  </Stack>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    sx={{
+                      lineHeight: "inherit",
+                      minWidth: "auto",
+                      mr: "auto",
+                      justifyContent: "flex-start",
+                    }}
+                    onClick={() => navigate(`/blog/${blog.id}`)}
+                  >
+                    Read
+                  </Button>
+                  <Button
+                    onClick={handleOpenEditDialog}
+                    sx={{ lineHeight: "inherit", minWidth: "auto" }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    onClick={handleOpenDeleteDialog}
+                    sx={{ lineHeight: "inherit", minWidth: "auto" }}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              </Card>
+              <Dialog open={deleteDialog}>
+                <DialogContent>Are you sure you want to delete?</DialogContent>
+                <DialogActions>
+                  <Button size="small" onClick={handleCloseDeleteDialog}>
+                    No
+                  </Button>
+                  <Button
+                    size="small"
+                    onClick={() => handleDeleteBlog(blog.id)}
+                  >
+                    Yes
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <Dialog open={editDialog}>
+                <DialogContent>
+                  <BlogForm
+                    formTitle="Edit Blog"
+                    submitBtnText="Save"
+                    handleSubmit={handleEditBlog}
+                    data={blog}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseEditDialog}>Cancel</Button>
+                </DialogActions>
+              </Dialog>
+            </Grid2>
+          ))}
+        </Grid2>
+      </Box>
     </Container>
   );
 };

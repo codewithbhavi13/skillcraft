@@ -5,7 +5,7 @@ import UniqueFeature from "../Component/Aboutus/UniqueFeature";
 import FutureGoal from "../Component/Aboutus/FutureGoal";
 import Mission from "../Component/Aboutus/Mission";
 import ProblemSection from "../Component/Aboutus/ProblemSection";
-import Feedback from "../Component/UserDashboard/Feedback";
+import Feedback from "../Component/Aboutus/Feedback";
 
 const AboutUs = () => {
   return (

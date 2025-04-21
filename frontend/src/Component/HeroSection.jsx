@@ -21,7 +21,7 @@ const HeroSection = () => {
       <Typography variant="h3" fontWeight="bold">
         Explore Top Courses & Tutorials
       </Typography>
-      <Typography variant="h6" sx={{ mt: 1, mb: 2 }}>
+      <Typography variant="h6" sx={{ mt: 1, mb: 1 }}>
         Learn, Grow & Upgrade Your Skills
       </Typography>
     </Box>

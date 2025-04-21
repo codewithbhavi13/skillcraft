@@ -1,26 +1,45 @@
 import React, { useContext, useState } from "react";
-import {
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Rating,
-  Snackbar,
-  Alert,
-  Switch,
-} from "@mui/material";
+import { Box, Typography, TextField, Button, Rating } from "@mui/material";
 import { ThemeContext } from "../../context/ThemeContext";
+import { MessageContext } from "../../context/MessageContext";
+import axios from "axios";
+import { UserContext } from "../../context/UserContext";
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
 export default function Feedback() {
   const [feedback, setFeedback] = useState();
   const [rating, setRating] = useState(4);
-  const [submitted, setSubmitted] = useState(false);
-  const { darkMode, setDarkMode } = useContext(ThemeContext);
+  const { darkMode } = useContext(ThemeContext);
+  const { setSuccessMsg, setWarningMsg, setErrorMsg } =
+    useContext(MessageContext);
+  const {
+    userDetails: { username, email, authtoken },
+    isLogin,
+  } = useContext(UserContext);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (!isLogin) return setWarningMsg("Please Login First");
     console.log({ feedback, rating });
+    try {
+      const { data, status } = await axios.post(
+        SERVER_URL + "/api/user-preferences/feedback",
+        {
+          message: feedback,
+          rating,
+          email,
+          username,
+        },
+        {
+          headers: { authtoken },
+        }
+      );
+      if (status === 201) {
+        setSuccessMsg(data.msg);
+      }
+    } catch (error) {
+      setErrorMsg("Somethign Went Wrong");
+    }
 
-    setSubmitted(true);
     setFeedback("");
     setRating(4);
   };
@@ -66,19 +85,6 @@ export default function Feedback() {
       >
         Submit
       </Button>
-      <Snackbar
-        open={submitted}
-        autoHideDuration={3000}
-        onClose={() => setSubmitted(false)}
-      >
-        <Alert
-          onClose={() => setSubmitted(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Thank You for your Feedback!
-        </Alert>
-      </Snackbar>
     </Box>
   );
 }

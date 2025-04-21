@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { BlogContext } from "../context/BlogContex";
+import { BlogContext } from "../context/BlogContext";
 import { ThemeContext } from "../context/ThemeContext";
 import { useTheme } from "@mui/material/styles";
 import {
@@ -18,12 +18,18 @@ import {
   InputLabel,
   FormControl,
   Grid2,
+  Stack,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
+import { MessageContext } from "../context/MessageContext";
 
 const BlogPage = () => {
-  const { blogs } = useContext(BlogContext);
+  const { blogs, refreshBlogs } = useContext(BlogContext);
+  const { isLogin } = useContext(UserContext);
+  const { setWarningMsg } = useContext(MessageContext);
+  const navigate = useNavigate();
   const { darkMode, setDarkMode } = useContext(ThemeContext);
   const theme = useTheme();
 
@@ -31,14 +37,6 @@ const BlogPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [category, setCategory] = useState("All");
-  const [blog, setBlog] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/blog") // Change this URL if needed
-      .then((res) => setBlog(res.data))
-      .catch((err) => console.log(err));
-  }, []);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -67,6 +65,13 @@ const BlogPage = () => {
   const indexOfLastBlog = currentPage * blogsPerPage;
   const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
   const currentBlogs = filteredBlogs.slice(indexOfFirstBlog, indexOfLastBlog);
+
+  useEffect(() => {
+    if (!isLogin) {
+      setWarningMsg("Please Login First");
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <Container maxWidth="lg">
@@ -124,12 +129,18 @@ const BlogPage = () => {
       </Box>
 
       {/* Blog Grid */}
-      <Grid2 container spacing={3}>
-        {currentBlogs.length === 0 ? (
-          <Typography>No blogs found</Typography>
-        ) : (
-          currentBlogs.map((blog) => (
-            <Grid2 item xs={12} sm={6} md={4} key={blog.id}>
+      {currentBlogs.length === 0 ? (
+        <Stack sx={{ justifyContent: "center" }}>
+          <Typography textAlign={"center"}>No blogs found</Typography>
+          <Button onClick={refreshBlogs} sx={{ textAlign: "center" }}>
+            {" "}
+            Refresh
+          </Button>
+        </Stack>
+      ) : (
+        <Grid2 container spacing={3}>
+          {currentBlogs.map((blog) => (
+            <Grid2 xs={12} sm={6} md={4} key={blog.id}>
               <Card
                 sx={{
                   backgroundColor: theme.palette.background.paper,
@@ -159,9 +170,9 @@ const BlogPage = () => {
                 </CardContent>
               </Card>
             </Grid2>
-          ))
-        )}
-      </Grid2>
+          ))}
+        </Grid2>
+      )}
 
       {/* Pagination */}
       <Box sx={{ display: "flex", justifyContent: "center", my: 3 }}>

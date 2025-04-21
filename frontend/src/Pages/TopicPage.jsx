@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { UserContext } from "../context/UserContext";
 import { OpenedTutorialContext } from "../context/OpenedTutorialContext";
+import RendererComponent from "../Component/RendererComponent";
 
 export default function TopicPage() {
   const location = useLocation();
@@ -18,12 +19,16 @@ export default function TopicPage() {
     chapterIndex,
     enrolledTutorial,
     isTopicCompleted,
+    clearData,
   } = useContext(OpenedTutorialContext);
+  console.log("Chapter: ", chapter);
+  console.log("Topic", topic);
 
   const jumpToChapterPage = () => {
     navigate(location.pathname.replace(/\/topic-\d+$/, ""));
   };
   const jumpToNextChapter = () => {
+    clearData();
     navigate(
       location.pathname.replace(/\/topic-\d+$/, "").slice(0, -1) +
         (chapterIndex + 2)
@@ -54,17 +59,18 @@ export default function TopicPage() {
 
   useEffect(() => {
     const setCompleteTopic = () => {
-      if (!isTopicCompleted(chapter.name, topic.name)) {
-        completeTopic({
-          tutorialName: tutorial.title,
-          chapterName: chapter.name,
-          topicName: topic.name,
-        });
+      if (tutorial.title && chapter.name && topic?.name) {
+        if (!isTopicCompleted(chapter.name, topic.name)) {
+          completeTopic({
+            tutorialName: tutorial.title,
+            chapterName: chapter.name,
+            topicName: topic.name,
+          });
+        }
       }
     };
     setCompleteTopic();
-  });
-
+  }, [topic]);
   return (
     <Stack
       sx={{
@@ -77,7 +83,7 @@ export default function TopicPage() {
       height={"100%"}
     >
       <Box>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           {topic?.name}
         </Typography>
         {topic?.content?.map((item, index) => (
@@ -113,42 +119,4 @@ export default function TopicPage() {
       </Stack>
     </Stack>
   );
-}
-
-function RendererComponent({ element }) {
-  if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(element?.type)) {
-    return (
-      <Typography variant={element.type} gutterBottom>
-        {element.data}
-      </Typography>
-    );
-  }
-  if (element.type === "paragraph") {
-    return (
-      <Typography component="p" gutterBottom>
-        {element.data}
-      </Typography>
-    );
-  }
-  if (element.type === "bullet") {
-    return (
-      <ul>
-        {element.data.map((item, index) => (
-          <li key={index}>{item}</li>
-        ))}
-      </ul>
-    );
-  }
-  if (element.type === "titled_bullet") {
-    return (
-      <ul>
-        {element.data.map((item, index) => (
-          <li key={index}>
-            <strong>{item.title}:</strong>&nbsp;
-            {item.body}
-          </li>
-        ))}
-      </ul>
-    );
-  }
 }

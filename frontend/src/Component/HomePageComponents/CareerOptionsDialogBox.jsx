@@ -22,7 +22,7 @@ export default function CareerOptionsDialogBox(props) {
     setCareerChanged(true);
     setTimeout(() => handleOpenRecommandations(), 100);
   };
-  const options = ["AI & ML", "DevOps", "Web Development", "Cybersecurity"];
+  const options = ["AI & ML", "DevOps", "Web Development", "Cyber Security"];
   return (
     <Dialog
       open={open}

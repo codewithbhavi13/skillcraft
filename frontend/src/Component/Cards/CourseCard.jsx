@@ -11,6 +11,11 @@ export default function CourseCard({ course, width }) {
   const handleOnCourseClick = () => {
     navigate("/course/" + course.title.toLowerCase().replaceAll(" ", "-"));
   };
+  const descriptionlimit = 140;
+  const displayedDescription =
+    course.description.length > 100
+      ? course.description.substring(0, descriptionlimit) + "…"
+      : course.description;
   return (
     <Card
       sx={{ maxWidth: 300, width: width ? width : "auto", borderRadius: 3 }}
@@ -30,7 +35,7 @@ export default function CourseCard({ course, width }) {
             variant="body2"
             sx={{ color: "text.secondary", whiteSpace: "wrap" }}
           >
-            {course.description}
+            {displayedDescription}
           </Typography>
         </CardContent>
       </CardActionArea>

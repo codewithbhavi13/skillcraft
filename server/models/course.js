@@ -1,13 +1,12 @@
 import mongoose from "mongoose";
 
-// Define the schema for a course
 const courseSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
-    image: {
+    thumbnail: {
       type: String,
       required: true,
     },

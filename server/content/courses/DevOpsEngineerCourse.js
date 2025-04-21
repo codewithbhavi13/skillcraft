@@ -1690,169 +1690,6 @@ const tutorial5_chapter3_topics = [
   },
 ];
 
-// Tutorial 6: Monitoring & Logging
-
-const tutorial6_chapter1_topics = [
-  {
-    name: "What is Monitoring?",
-    content: [
-      {
-        type: "paragraph",
-        data: "Monitoring involves tracking the performance and health of applications, services, and infrastructure. Effective monitoring helps identify and resolve issues before they affect the end-user experience, ensuring reliability and uptime.",
-      },
-    ],
-  },
-  {
-    name: "Prometheus",
-    content: [
-      {
-        type: "paragraph",
-        data: "Prometheus is an open-source monitoring system designed for reliability and scalability. It collects metrics from configured endpoints at specified intervals, stores them in a time-series database, and provides powerful querying capabilities.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "Key Features of Prometheus",
-            body: "Time-series data storage for metrics. Multi-dimensional data model with key-value pairs (labels). PromQL (Prometheus Query Language) for querying and analyzing data. Built-in alerting and notification capabilities. Integration with various exporters for application and system-level metrics.",
-          },
-          {
-            title: "Use Case of Prometheus",
-            body: "Prometheus is commonly used for monitoring containerized applications, microservices, and infrastructure in real-time. It tracks metrics like CPU usage, memory usage, request rates, and more.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Grafana",
-    content: [
-      {
-        type: "paragraph",
-        data: "Grafana is a powerful open-source tool for visualizing time-series data collected from monitoring systems like Prometheus. It allows users to create dashboards that present metrics and logs in a user-friendly format.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "Key Features of Grafana",
-            body: "Supports various data sources, including Prometheus, InfluxDB, and Elasticsearch. Rich visualization options: Graphs, tables, heatmaps, and more. Alerting and notification system based on metrics thresholds. User authentication and role-based access control. Highly customizable and plugin extensible.",
-          },
-          {
-            title: "Grafana Use Case",
-            body: "Grafana is used to create visually appealing and actionable dashboards for monitoring application performance, system health, and business KPIs in real-time.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Prometheus + Grafana Integration",
-    content: [
-      {
-        type: "paragraph",
-        data: "Prometheus and Grafana work together to provide both data collection and visualization for an end-to-end monitoring solution.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "How it Works",
-            body: "Prometheus scrapes and collects data from various sources (like application endpoints and infrastructure). Grafana fetches the data from Prometheus and visualizes it on dashboards. Alerts in Grafana can trigger notifications based on Prometheus metrics, helping teams take action when issues arise.",
-          },
-        ],
-      },
-    ],
-  },
-];
-
-const tutorial6_chapter2_topics = [
-  {
-    name: "What is the ELK Stack?",
-    content: [
-      {
-        type: "paragraph",
-        data: "The ELK stack (Elasticsearch, Logstash, and Kibana) is a powerful suite of tools used for searching, analyzing, and visualizing large volumes of log data in real-time.",
-      },
-    ],
-  },
-  {
-    name: "Elasticsearch",
-    content: [
-      {
-        type: "paragraph",
-        data: "Elasticsearch is a distributed search and analytics engine designed for fast and scalable searches of large volumes of data. It indexes and stores log data for quick querying and retrieval.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "Key Features of Elasticsearch",
-            body: "Distributed and scalable architecture. Real-time search and analytics. Full-text search capabilities. Integrates with other components like Logstash and Kibana for a complete logging solution.",
-          },
-          {
-            title: "Use Case of Elasticsearch",
-            body: "Elasticsearch is widely used to store and index logs, application events, and other time-series data for quick searches and analysis.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Logstash",
-    content: [
-      {
-        type: "paragraph",
-        data: "Logstash is an open-source data processing pipeline that ingests, processes, and transforms log and event data. It sends the processed data to Elasticsearch for indexing.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "Key Features of Logstash",
-            body: "Supports a wide range of input sources, including logs, databases, and cloud services. Powerful filters for transforming and parsing data. Output to various destinations, including Elasticsearch. Extensible with plugins to enhance functionality.",
-          },
-          {
-            title: "Use Case of Logstash",
-            body: "Logstash is used to aggregate and transform logs from various sources, making it easier to process and index logs before they are stored in Elasticsearch.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "Kibana",
-    content: [
-      {
-        type: "paragraph",
-        data: "Kibana is a data visualization and exploration tool that works with Elasticsearch. It allows users to create interactive dashboards to analyze and visualize log data stored in Elasticsearch.",
-      },
-      {
-        type: "titled_bullet",
-        data: [
-          {
-            title: "Key Features of Kibana",
-            body: "Create and share visualizations like bar charts, pie charts, and time series graphs. Real-time monitoring of logs and metrics. Search and filter log data interactively. Alerts based on log patterns and thresholds.",
-          },
-          {
-            title: "Kibana Use Case",
-            body: "Kibana is used for visualizing log data and monitoring applications in real-time. It's ideal for exploring trends, identifying issues, and gaining insights from logs.",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "ELK Stack Use Case",
-    content: [
-      {
-        type: "paragraph",
-        data: "The ELK stack is often used for centralized logging, where log data from different services and systems are aggregated, indexed, and visualized. This is crucial for debugging and performance monitoring in complex systems.",
-      },
-    ],
-  },
-];
-
 const tutorial1_chapters = [
   {
     name: "Operating Systems – Linux &Shell Scripting",
@@ -1955,27 +1792,6 @@ const tutorial5_chapters = [
     description:
       "Serverless computing and Kubernetes are powerful approaches for deploying and managing applications in the cloud, each with their own benefits and use cases.",
   },
-];
-
-const tutorial6_chapters = [
-  {
-    name: "Prometheus & Grafana for Monitoring",
-    topics: tutorial6_chapter1_topics,
-    description:
-      "Monitoring involves tracking the performance and health of applications, services, and infrastructure. Effective monitoring helps identify and resolve issues before they affect the end-user experience, ensuring reliability and uptime.",
-  },
-  {
-    name: "ELK Stack (Elasticsearch, Logstash, Kibana)",
-    topics: tutorial6_chapter2_topics,
-    description:
-      "The ELK stack (Elasticsearch, Logstash, and Kibana) is a powerful suite of tools used for searching, analyzing, and visualizing large volumes of log data in real-time.",
-  },
-  // {
-  //   name: "Distributed Tracing (Jaeger, OpenTelemetry)",
-  //   topics: tutorial6_chapter3_topics,
-  //   description:
-  //     "Distributed tracing helps to track requests as they move through a distributed system. It allows teams to observe the journey of requests across microservices, making it easier to detect performance bottlenecks and issues in complex applications.",
-  // },
 ];
 
 export const DevOpsTutorials = [
@@ -2275,7 +2091,8 @@ export const DevOpsTutorials = [
 ];
 export const DevOpsEngineerCourse = {
   title: "DevOps Engineer",
-  description: "",
+  description:
+    "This DevOps course is designed to equip aspiring engineers with the essential skills and tools needed to thrive in modern software development environments. Beginning with the foundational prerequisites for a DevOps Engineer, the course delves into core concepts such as version control using Git and the principles of Continuous Integration and Continuous Deployment (CI/CD) for streamlined delivery pipelines. You’ll gain hands-on experience with automation through Infrastructure as Code (IaC) using tools like Terraform, Ansible, Docker, and Kubernetes. Additionally, the course explores cloud computing fundamentals, introducing major platforms like AWS, Azure, and Google Cloud, and highlighting their services, architectures, and practical use cases. By the end, you’ll have a solid understanding of how to automate, deploy, and manage applications at scale in cloud-native environments.",
   thumbnail:
     "https://firebasestorage.googleapis.com/v0/b/gossip-app-62715.appspot.com/o/Skillcraft%20Images%2FDevOps%2FDevOps0.png?alt=media&token=777b27d0-7949-4b94-943f-09ed1ecd39fd",
   category: "DevOps",

@@ -45,7 +45,7 @@ export const OpenedTutorialProvider = ({ children }) => {
     if (topicParam && Object.keys(chapter || {}).length !== 0) {
       setTopicIndexandTopic();
     }
-  }, [topicParam, chapter]);
+  }, [topicParam, chapter, chapterIndex]);
 
   useEffect(() => {
     if (Object.keys(tutorial || {}).length !== 0 && enrolledTutorials)
@@ -84,7 +84,8 @@ export const OpenedTutorialProvider = ({ children }) => {
   };
 
   const setChapterIndexandChapter = () => {
-    const newChapterIndex = parseInt(parms.chapter.at(-1)) - 1;
+    const newChapterIndex =
+      parseInt(chapterParam.match(/\d+$/)?.[0] || "0", 10) - 1;
 
     if (isNaN(newChapterIndex)) {
       console.error("error");
@@ -129,7 +130,8 @@ export const OpenedTutorialProvider = ({ children }) => {
   };
 
   const setTopicIndexandTopic = () => {
-    const newTopicIndex = parseInt(parms.topic.at(-1)) - 1;
+    const newTopicIndex =
+      parseInt(topicParam.match(/\d+$/)?.[0] || "0", 10) - 1;
     if (isNaN(newTopicIndex)) {
       return;
     }
@@ -151,6 +153,17 @@ export const OpenedTutorialProvider = ({ children }) => {
     );
     return completedTopic !== undefined;
   };
+  const clearData = () => {
+    setTutorial({});
+    setChapter({});
+    setTopic({});
+    setOpenChapters({});
+    setIsEnrolled(false);
+    setEnrolledTutorial({});
+    setEnrollLoading(false);
+    setChapterIndex(-1);
+    setTopicIndex(-1);
+  };
   return (
     <OpenedTutorialContext.Provider
       value={{
@@ -170,6 +183,7 @@ export const OpenedTutorialProvider = ({ children }) => {
         topic,
         topicIndex,
         tutorial,
+        clearData,
       }}
     >
       {children}

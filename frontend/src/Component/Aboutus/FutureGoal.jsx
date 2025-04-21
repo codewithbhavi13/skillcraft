@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Card, CardContent, Typography, Box } from "@mui/material";
+import { Grid, Card, CardContent, Typography, Box, Grid2 } from "@mui/material";
 import { styled } from "@mui/system";
 
 const goals = [
@@ -47,7 +47,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const FutureGoalsGrid = () => {
   return (
-    <Box sx={{ flexGrow: 1, mt: 6, textAlign: "center" }}>
+    <Box sx={{ flexGrow: 1, mt: 6, m: 2, textAlign: "center" }}>
       <Typography
         variant="h4"
         sx={{
@@ -60,10 +60,10 @@ const FutureGoalsGrid = () => {
       >
         Our Future Goals
       </Typography>
-      <Grid container spacing={3} marginBottom={7}>
+      <Grid2 container spacing={3} marginBottom={7}>
         {goals.map((goal, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <StyledCard>
+          <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+            <StyledCard sx={{ height: "100%" }}>
               <CardContent>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
                   {goal.title}
@@ -71,9 +71,9 @@ const FutureGoalsGrid = () => {
                 <Typography variant="body2">{goal.description}</Typography>
               </CardContent>
             </StyledCard>
-          </Grid>
+          </Grid2>
         ))}
-      </Grid>
+      </Grid2>
     </Box>
   );
 };
